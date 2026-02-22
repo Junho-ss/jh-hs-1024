@@ -996,16 +996,10 @@
       <p class="location-address" style="margin-top:2px;">(백현동 496) | 031-709-8094</p>
     </div>
     <div class="map-container">
-      <div class="map-placeholder">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        <span>지도 영역</span>
-        <span style="font-size:9px; color:#bbb;">카카오맵/네이버맵 API 연동 가능</span>
-      </div>
+      <div id="kakao-map" style="width:100%;height:100%;"></div>
     </div>
     <div class="map-buttons">
-      <button class="map-btn" onclick="openMap('kakao')">카카오맵</button>
-      <button class="map-btn" onclick="openMap('naver')">네이버맵</button>
-      <button class="map-btn" onclick="openMap('tmap')">T맵</button>
+      <button class="map-btn" onclick="openMap()">카카오맵 길찾기</button>
     </div>
     <div class="transport-info">
       <div class="transport-item">
@@ -1093,6 +1087,7 @@
 
 <div class="toast" id="toast"></div>
 
+<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=cd536283cf53a0a925f27ea2d0767ed6&autoload=false"></script>
 <script>
   // ===== Countdown Timer =====
   const weddingDate = new Date('2026-10-24T12:00:00+09:00');
@@ -1269,18 +1264,42 @@
     });
   }
 
-  // ===== Map =====
-  function openMap(type) {
-    const lat = 37.3947;
-    const lng = 127.1115;
-    const name = '아연당';
-    
-    let url = '';
-    if (type === 'kakao') url = `https://map.kakao.com/link/to/${name},${lat},${lng}`;
-    else if (type === 'naver') url = `https://map.naver.com/v5/directions/-/-/-/transit?c=${lng},${lat},15,0,0,0,dh`;
-    else if (type === 'tmap') url = `https://apis.openapi.sk.com/tmap/app/routes?appKey=&name=${name}&lon=${lng}&lat=${lat}`;
-    
-    window.open(url, '_blank');
+  // ===== Kakao Map =====
+  const VENUE_LAT = 37.3820393;
+  const VENUE_LNG = 127.0932595;
+  const VENUE_NAME = '아연당';
+
+  kakao.maps.load(function() {
+    const mapContainer = document.getElementById('kakao-map');
+    const mapOption = {
+      center: new kakao.maps.LatLng(VENUE_LAT, VENUE_LNG),
+      level: 3
+    };
+    const map = new kakao.maps.Map(mapContainer, mapOption);
+
+    const marker = new kakao.maps.Marker({
+      position: new kakao.maps.LatLng(VENUE_LAT, VENUE_LNG)
+    });
+    marker.setMap(map);
+
+    const infowindow = new kakao.maps.InfoWindow({
+      content: '<div style="padding:5px 10px;font-size:12px;white-space:nowrap;">아연당</div>'
+    });
+    infowindow.open(map, marker);
+
+    // Fix map rendering when section becomes visible
+    const mapObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setTimeout(() => map.relayout(), 100);
+        }
+      });
+    });
+    mapObserver.observe(mapContainer);
+  });
+
+  function openMap() {
+    window.open(`https://map.kakao.com/link/to/${VENUE_NAME},${VENUE_LAT},${VENUE_LNG}`, '_blank');
   }
 
   // ===== Share =====
