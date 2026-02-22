@@ -785,7 +785,7 @@
   const VENUE_LNG = 127.0932595;
   const VENUE_NAME = '아연당';
 
-  kakao.maps.load(function() {
+  if (typeof kakao !== 'undefined' && kakao.maps) kakao.maps.load(function() {
     const mapContainer = document.getElementById('kakao-map');
     const mapOption = {
       center: new kakao.maps.LatLng(VENUE_LAT, VENUE_LNG),
