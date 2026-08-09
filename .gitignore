@@ -1,0 +1,5 @@
+# 원본 대용량 사진 (웹용은 photos/ 에 있음)
+pictures/
+
+# 로컬 도구 설정
+.claude/

@@ -418,27 +418,16 @@
     letter-spacing: 2px;
   }
 
-  .gallery-dots {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
+  .gallery-counter {
+    text-align: center;
     margin-top: 24px;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--text-light);
   }
 
-  .gallery-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--border);
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s;
-    padding: 0;
-  }
-
-  .gallery-dot.active {
-    background: var(--gold);
-    transform: scale(1.3);
+  .gallery-counter #gallery-current {
+    color: var(--gold);
   }
 
   /* ===== LOCATION ===== */
@@ -968,19 +957,67 @@
     <div class="gallery-container">
       <div class="gallery-track" id="gallery-track">
         <div class="gallery-slide">
-          <img src="test.png" alt="Photo 1">
+          <img src="photos/01.jpg" alt="Photo 1">
         </div>
         <div class="gallery-slide">
-          <img src="test.png" alt="Photo 2">
+          <img src="photos/02.jpg" alt="Photo 2" loading="lazy">
         </div>
         <div class="gallery-slide">
-          <img src="test.png" alt="Photo 3">
+          <img src="photos/03.jpg" alt="Photo 3" loading="lazy">
         </div>
         <div class="gallery-slide">
-          <img src="test.png" alt="Photo 4">
+          <img src="photos/04.jpg" alt="Photo 4" loading="lazy">
+        </div>
+        <div class="gallery-slide">
+          <img src="photos/05.jpg" alt="Photo 5" loading="lazy">
+        </div>
+        <div class="gallery-slide">
+          <img src="photos/06.jpg" alt="Photo 6" loading="lazy">
+        </div>
+        <div class="gallery-slide">
+          <img src="photos/07.jpg" alt="Photo 7" loading="lazy">
+        </div>
+        <div class="gallery-slide">
+          <img src="photos/08.jpg" alt="Photo 8" loading="lazy">
+        </div>
+        <div class="gallery-slide">
+          <img src="photos/09.jpg" alt="Photo 9" loading="lazy">
+        </div>
+        <div class="gallery-slide">
+          <img src="photos/10.jpg" alt="Photo 10" loading="lazy">
+        </div>
+        <div class="gallery-slide">
+          <img src="photos/11.jpg" alt="Photo 11" loading="lazy">
+        </div>
+        <div class="gallery-slide">
+          <img src="photos/12.jpg" alt="Photo 12" loading="lazy">
+        </div>
+        <div class="gallery-slide">
+          <img src="photos/13.jpg" alt="Photo 13" loading="lazy">
+        </div>
+        <div class="gallery-slide">
+          <img src="photos/14.jpg" alt="Photo 14" loading="lazy">
+        </div>
+        <div class="gallery-slide">
+          <img src="photos/15.jpg" alt="Photo 15" loading="lazy">
+        </div>
+        <div class="gallery-slide">
+          <img src="photos/16.jpg" alt="Photo 16" loading="lazy">
+        </div>
+        <div class="gallery-slide">
+          <img src="photos/17.jpg" alt="Photo 17" loading="lazy">
+        </div>
+        <div class="gallery-slide">
+          <img src="photos/18.jpg" alt="Photo 18" loading="lazy">
+        </div>
+        <div class="gallery-slide">
+          <img src="photos/19.jpg" alt="Photo 19" loading="lazy">
+        </div>
+        <div class="gallery-slide">
+          <img src="photos/20.jpg" alt="Photo 20" loading="lazy">
         </div>
       </div>
-      <div class="gallery-dots" id="gallery-dots"></div>
+      <p class="gallery-counter"><span id="gallery-current">1</span> / <span id="gallery-total">20</span></p>
     </div>
   </section>
 
@@ -1154,23 +1191,15 @@
   // ===== Gallery Slider =====
   let currentSlide = 0;
   const track = document.getElementById('gallery-track');
-  const dotsContainer = document.getElementById('gallery-dots');
   const galleryContainer = document.querySelector('.gallery-container');
   const slides = track.querySelectorAll('.gallery-slide');
-
-  for (let i = 0; i < slides.length; i++) {
-    const dot = document.createElement('button');
-    dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
-    dot.onclick = () => goToSlide(i);
-    dotsContainer.appendChild(dot);
-  }
+  const galleryCurrent = document.getElementById('gallery-current');
+  document.getElementById('gallery-total').textContent = slides.length;
 
   function goToSlide(n) {
     currentSlide = n;
     track.style.transform = `translateX(-${n * 100}%)`;
-    document.querySelectorAll('.gallery-dot').forEach((d, i) => {
-      d.classList.toggle('active', i === n);
-    });
+    galleryCurrent.textContent = n + 1;
   }
 
   // Touch swipe support
