@@ -14,7 +14,8 @@ from PIL import Image, ImageOps
 SRC        = 'pictures'
 ALL_DIR    = 'photos-all'
 WEB_DIR    = 'photos'
-SELECTED   = ['01', '03', '07', '15', '11', '16', '17']   # index.html 갤러리 순서 (17=수정본2차)
+SELECTED   = ['01', '03', '07', '15', '11', '16', '17',
+              '04', '06', '14', '18', '20']   # index.html 갤러리 순서 (17=수정본2차, 뒤 5장은 2차 배치 추가분)
 MAX_DIM    = 1400
 QUALITY    = 82
 OG_SIZE    = (1200, 630)
