@@ -3,3 +3,6 @@ pictures/
 
 # 로컬 도구 설정
 .claude/
+
+# 갤러리 교체용 웹사이즈 전체 보관본 (build-photos.py 로 재생성 가능)
+photos-all/
