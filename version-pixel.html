@@ -13,7 +13,7 @@
 <meta property="og:title" content="WEDDING QUEST — 홍준호 ♥ 전희선">
 <meta property="og:description" content="2026년 10월 24일 토요일 낮 12시 · 판교 아연당">
 <meta property="og:url" content="https://junho-ss.github.io/jh-hs-1024/version-pixel.html">
-<meta property="og:image" content="https://junho-ss.github.io/jh-hs-1024/photos/og.jpg">
+<meta property="og:image" content="https://junho-ss.github.io/jh-hs-1024/photos-pixel/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="ko_KR">
@@ -185,7 +185,20 @@
     font-size: 10px; color: var(--dim);
   }
   .frame-bar .tdot { width: 8px; height: 8px; }
-  .scene { width: 100%; height: auto; display: block; background: #C8D8E8; }
+  .gal { overflow: hidden; background: #C8D8E8; cursor: grab; }
+  .gal-track { display: flex; transition: transform .3s steps(6); }
+  .gal-slide { min-width: 100%; aspect-ratio: 2 / 3; }
+  .gal-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gal-nav { display: flex; border-top: 2px solid var(--line); }
+  .gal-nav button {
+    flex: 1; min-height: 44px;
+    font-family: inherit; font-size: var(--fs-cap);
+    color: var(--green-d); background: var(--slot);
+    border: none; cursor: pointer;
+  }
+  .gal-nav button + button { border-left: 2px solid var(--line); }
+  .gal-nav button:disabled { color: #A8BDCA; cursor: default; }
+  .frame-bar .count { color: var(--green-d); }
 
   /* ===== LEVEL UP ===== */
   .lv { text-align: center; padding: var(--u6) var(--u1) var(--u2); }
@@ -375,10 +388,14 @@
     <div class="frame">
       <div class="frame-bar">
         <span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span>
-        <span class="en" style="flex:1;text-align:center">quest_scene.jpg</span>
+        <span class="en" style="flex:1;text-align:center">quest_album</span>
+        <span class="en count" id="gal-count">01/13</span>
       </div>
-      <img class="scene" src="photos/quest-scene.jpg"
-           alt="들판을 가로질러 함께 걸어가는 두 사람" width="760" height="690" loading="lazy">
+      <div class="gal" id="gal"><div class="gal-track" id="gal-track"></div></div>
+      <div class="gal-nav">
+        <button type="button" id="gal-prev" onclick="galGo(-1)">◀ 이전</button>
+        <button type="button" id="gal-next" onclick="galGo(1)">다음 ▶</button>
+      </div>
     </div>
 
     <div class="lv">
@@ -586,6 +603,46 @@
              'style="top:' + c[0] + '%;left:-90px;animation-duration:' + c[1] +
              's;animation-delay:' + c[2] + 's">' + sprite(ART.cloud) + '</svg>';
     }).join('');
+  })();
+
+  // ===== 갤러리 =====
+  // 픽셀 버전 전용 폴더(photos-pixel/)만 사용한다. 일반 버전 photos/ 와 분리.
+  var GAL_COUNT = 13;   // build-pixel-photos.py 가 만든 장수
+  var gal = 0;
+
+  (function buildGallery() {
+    var track = document.getElementById('gal-track');
+    var html = '';
+    for (var i = 1; i <= GAL_COUNT; i++) {
+      var num = (i < 10 ? '0' : '') + i;
+      html += '<div class="gal-slide"><img src="photos-pixel/' + num + '.jpg" alt="사진 ' + i + '"' +
+              (i === 1 ? '' : ' loading="lazy"') + '></div>';
+    }
+    track.innerHTML = html;
+  })();
+
+  function galRender() {
+    document.getElementById('gal-track').style.transform = 'translateX(-' + (gal * 100) + '%)';
+    document.getElementById('gal-count').textContent =
+      ((gal + 1 < 10 ? '0' : '') + (gal + 1)) + '/' + GAL_COUNT;
+    document.getElementById('gal-prev').disabled = (gal === 0);
+    document.getElementById('gal-next').disabled = (gal === GAL_COUNT - 1);
+  }
+  window.galGo = function (step) {
+    gal = Math.min(GAL_COUNT - 1, Math.max(0, gal + step));
+    galRender();
+  };
+  galRender();
+
+  (function swipe() {
+    var el = document.getElementById('gal'), x0 = null;
+    el.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    el.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var dx = x0 - e.changedTouches[0].clientX;
+      if (Math.abs(dx) > 45) window.galGo(dx > 0 ? 1 : -1);
+      x0 = null;
+    }, { passive: true });
   })();
 
   // ===== 예식 안내 =====
