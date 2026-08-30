@@ -133,24 +133,25 @@
   .cmd .bar { flex: 1; height: 2px; background: var(--line); }
 
   /* ===== 타이틀 화면 ===== */
+  /* 타이틀 = 두 사람이 들판을 걸어가는 실제 사진.
+     사진 위쪽이 하늘이라 글자는 위쪽에, 두 사람은 아래쪽에 그대로 보이게 배치한다. */
   .title {
-    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+    display: flex; flex-direction: column; align-items: center; justify-content: space-between;
     text-align: center;
-    min-height: calc(100vh - 160px);
-    padding: var(--u12) var(--u6) var(--u8);
+    min-height: calc(100vh - 120px);
+    padding: var(--u8) var(--u6) var(--u8);
     position: relative; overflow: hidden;
-    background: linear-gradient(180deg, #A8D8F0 0%, #CFEAF8 42%, #EAF6E4 78%, #D8EDC4 100%);
+    background: #CFE7F5 url('photos/quest-hero.jpg') center bottom / cover no-repeat;
   }
-  .clouds { position: absolute; inset: 0; pointer-events: none; }
-  .clouds svg { position: absolute; animation: drift linear infinite; }
-  .clouds svg rect { fill: rgba(255,255,255,.95); }
-  @keyframes drift { from { transform: translateX(-90px); } to { transform: translateX(540px); } }
-  .sun { position: absolute; top: 6%; right: 10%; width: 64px; height: 64px; }
-  .sun rect { fill: #F5C542; }
-
+  /* 글자가 앉는 위쪽에만 옅은 흰 막 — 하늘이 밝아도 대비를 보장 */
+  .title::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(180deg,
+      rgba(255,255,255,.72) 0%, rgba(255,255,255,.52) 26%,
+      rgba(255,255,255,.12) 48%, rgba(255,255,255,0) 62%);
+  }
   .title > * { position: relative; }
-  .heart-hero { width: 64px; height: 56px; margin-bottom: var(--u6); }
-  .heart-hero rect { fill: var(--pink); }
+  .title .top { width: 100%; }
   .title h1 {
     font-size: var(--fs-hero); line-height: 1.5; letter-spacing: 1px;
     color: var(--green-d); font-weight: normal; margin-bottom: var(--u2);
@@ -361,31 +362,18 @@
 
   <!-- ===== 타이틀 ===== -->
   <section class="title">
-    <div class="clouds" id="clouds" aria-hidden="true"></div>
-    <svg class="sun" id="sun" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"></svg>
-
-    <svg class="heart-hero" id="hero-heart" viewBox="0 0 16 14" shape-rendering="crispEdges" aria-hidden="true"></svg>
-
-    <h1 class="en">WEDDING<br>QUEST</h1>
-    <p class="sub">여정이 시작됩니다</p>
-    <p class="names">홍준호 <span class="amp">♥</span> 전희선</p>
-    <p class="meta">2026. 10. 24 토요일 낮 12시<br>판교 아연당</p>
-
+    <div class="top">
+      <h1 class="en">WEDDING<br>QUEST</h1>
+      <p class="sub">여정이 시작됩니다</p>
+      <p class="names">홍준호 <span class="amp">♥</span> 전희선</p>
+      <p class="meta">2026. 10. 24 토요일 낮 12시<br>판교 아연당</p>
+    </div>
     <button class="press en" onclick="document.getElementById('start').scrollIntoView()">▼ PRESS START</button>
   </section>
 
   <!-- ===== 여정의 시작 ===== -->
   <section class="sec" id="start">
     <p class="cmd en">./start_quest.sh<span class="bar"></span></p>
-
-    <div class="frame">
-      <div class="frame-bar">
-        <span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span>
-        <span class="en" style="flex:1;text-align:center">quest_scene.png</span>
-      </div>
-      <img class="scene" src="photos/quest-scene.png"
-           alt="들판을 가로질러 함께 걸어가는 두 사람" width="172" height="195">
-    </div>
 
     <div class="lv">
       <p class="players en">PLAYER 1 <span class="h">♥</span> PLAYER 2</p>
@@ -533,20 +521,6 @@
     call: ['.XXXXXX.','.X....X.','.X....X.','.X....X.','.X....X.','.X....X.','.X.XX.X.','.XXXXXX.'],
     // 8x7 — 푸터 하트
     heartS: ['.XX..XX.','XXXXXXXX','XXXXXXXX','.XXXXXX.','..XXXX..','...XX...','........'],
-    // 16x14 — 히어로 하트
-    heartL: [
-      '................','...XXX....XXX...','..XXXXX..XXXXX..','.XXXXXXXXXXXXXX.',
-      'XXXXXXXXXXXXXXXX','XXXXXXXXXXXXXXXX','XXXXXXXXXXXXXXXX','.XXXXXXXXXXXXXX.',
-      '..XXXXXXXXXXXX..','...XXXXXXXXXX...','....XXXXXXXX....','.....XXXXXX.....',
-      '......XXXX......','.......XX.......'
-    ],
-    // 16x16 — 해 (반투명 없이 단단한 가장자리로)
-    sun: [
-      '................','.......XX.......','................','...X........X...',
-      '....XXXXXXXX....','...XXXXXXXXXX...','..XXXXXXXXXXXX..','..XXXXXXXXXXXX..',
-      '..XXXXXXXXXXXX..','..XXXXXXXXXXXX..','...XXXXXXXXXX...','....XXXXXXXX....',
-      '...X........X...','................','.......XX.......','................'
-    ],
     // 16x16 — 인벤토리 아이콘 (8x8 로는 전화기·공유 글리프가 안 읽혀서 격자를 키웠다)
     gift: [
       '................','....XXX..XXX....','..XXXXXXXXXXXX..','.XXXXXXXXXXXXXX.',
@@ -566,7 +540,6 @@
       '................','.XX..........XX.','.XX..........XX.','.XX..........XX.',
       '.XXXXXXXXXXXXXX.','................','................','................'
     ],
-    cloud: ['..XXXX..','.XXXXXXX','XXXXXXXX']
   };
 
   function svgOf(name, w, h) {
@@ -574,19 +547,7 @@
            sprite(ART[name]) + '</svg>';
   }
 
-  document.getElementById('sun').innerHTML = sprite(ART.sun);
-  document.getElementById('hero-heart').innerHTML = sprite(ART.heartL);
   document.getElementById('foot-heart').innerHTML = sprite(ART.heartS);
-
-  // ===== 흘러가는 구름 (본문 텍스트를 가리지 않도록 위쪽에만) =====
-  (function () {
-    var conf = [[7, 32, 0], [16, 44, -14], [27, 38, -26]];
-    document.getElementById('clouds').innerHTML = conf.map(function (c) {
-      return '<svg viewBox="0 0 8 3" width="56" height="21" shape-rendering="crispEdges" ' +
-             'style="top:' + c[0] + '%;left:-90px;animation-duration:' + c[1] +
-             's;animation-delay:' + c[2] + 's">' + sprite(ART.cloud) + '</svg>';
-    }).join('');
-  })();
 
   // ===== 예식 안내 =====
   var QLOG = [
