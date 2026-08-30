@@ -22,81 +22,46 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri/dist/galmuri.css">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
-  /* 터미널 톤의 다크 팔레트(초록 + 바이올렛). 단일 테마로 의도적으로 고정. */
+  /* 맑은 낮에 여행을 떠나는 톤. 밝은 단일 테마로 의도적으로 고정. */
   :root {
-    --bg:        #08070E;
-    --panel:     #100D1C;
-    --panel-2:   #171327;
-    --slot:      #0D0A16;
-    --purple:    #211A38;   /* 패널 헤더 바 */
-    --purple-lt: #A78BFA;
-    --pink:      #E879F9;
-    --gold:      #6EE7A0;   /* 액센트: 터미널 초록 */
-    --mint:      #A78BFA;   /* 보조 액센트: 바이올렛 */
-    --text:      #E9E6F5;
-    --dim:       #8B84A8;
-    --line:      #2E2748;
-    --u: 4px;
+    --sky:     #DCEEF8;
+    --sky-2:   #F3FAFE;
+    --paper:   #FFFFFF;
+    --paper-2: #EDF5FA;
+    --slot:    #F8FCFE;
+    --line:    #B4CEDF;
+    --line-dk: #6E93AC;
+    --text:    #22323F;
+    --dim:     #6C8698;
+    --green:   #2E9E5B;
+    --green-d: #23814A;
+    --blue:    #2E7DC4;
+    --gold:    #E5A427;
+    --pink:    #E0679B;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
 
   body {
-    background: var(--bg);
+    background: var(--sky);
     color: var(--text);
-    font-family: 'Galmuri11', 'Galmuri9', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    font-family: 'Galmuri11', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
     font-size: 13px;
-    line-height: 1.9;
+    line-height: 1.95;
     -webkit-font-smoothing: none;
     overflow-x: hidden;
     word-break: keep-all;
   }
 
   .en { font-family: 'Press Start 2P', 'Galmuri11', monospace; }
+  .mono { font-family: 'GalmuriMono11', 'Galmuri11', monospace; }
 
   .screen {
     max-width: 480px;
     margin: 0 auto;
-    background: var(--bg);
+    background: var(--sky-2);
     min-height: 100vh;
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* CRT 주사선 */
-  .screen::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 90;
-    background: repeating-linear-gradient(
-      to bottom,
-      rgba(0,0,0,0.09) 0px,
-      rgba(0,0,0,0.09) 1px,
-      transparent 1px,
-      transparent 3px);
-    mix-blend-mode: multiply;
-  }
-
-  /* ===== 공통 픽셀 박스 ===== */
-  .px {
-    background: var(--panel);
-    border: 3px solid var(--line);
-    box-shadow: inset 2px 2px 0 rgba(255,255,255,.10),
-                inset -2px -2px 0 rgba(0,0,0,.45);
-  }
-
-  .px-title {
-    font-size: 10px;
-    letter-spacing: 1px;
-    color: var(--gold);
-    background: var(--purple);
-    border-bottom: 3px solid var(--line);
-    padding: 7px 10px;
-    text-transform: uppercase;
   }
 
   /* ===== 터미널 창 바 ===== */
@@ -105,13 +70,13 @@
     align-items: center;
     gap: 7px;
     padding: 9px 11px;
-    background: var(--panel-2);
+    background: var(--paper-2);
     border-bottom: 1px solid var(--line);
   }
   .tdot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
   .tdot.r { background: #FF5F57; } .tdot.y { background: #FEBC2E; } .tdot.g { background: #28C840; }
   .tname { flex: 1; text-align: center; font-size: 10px; color: var(--dim); letter-spacing: .5px; }
-  .ttag { font-size: 9px; color: #5C5678; letter-spacing: .5px; }
+  .ttag  { font-size: 9px; color: var(--line-dk); letter-spacing: .5px; }
 
   /* ===== 상단 HUD ===== */
   .hud {
@@ -122,97 +87,107 @@
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    padding: 8px 10px;
-    background: var(--panel-2);
-    border-bottom: 3px solid var(--line);
+    padding: 9px 11px;
+    background: var(--paper);
+    border-bottom: 2px solid var(--line);
     font-size: 10px;
   }
-  .hud .who { color: var(--text); }
   .hud .who b { color: var(--pink); font-weight: normal; }
   .hud .dday {
-    color: var(--bg);
-    background: var(--gold);
-    padding: 3px 7px;
-    font-size: 10px;
+    color: #fff;
+    background: var(--green);
+    padding: 4px 8px;
     white-space: nowrap;
+  }
+
+  /* ===== 공통 픽셀 박스 ===== */
+  .px {
+    background: var(--paper);
+    border: 3px solid var(--line-dk);
+    box-shadow: inset 2px 2px 0 #fff, inset -2px -2px 0 rgba(110,147,172,.22);
+  }
+  .px-title {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #fff;
+    background: var(--green);
+    border-bottom: 3px solid var(--green-d);
+    padding: 8px 10px;
   }
 
   /* ===== 타이틀 화면 ===== */
   .title {
-    min-height: calc(100vh - 42px);
+    min-height: calc(100vh - 76px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 40px 24px;
+    padding: 40px 24px 60px;
     position: relative;
-    background:
-      radial-gradient(ellipse at 50% 30%, rgba(96,64,168,.45) 0%, transparent 62%),
-      var(--bg);
+    overflow: hidden;
+    background: linear-gradient(180deg, #A8D8F0 0%, #CFEAF8 42%, #EAF6E4 78%, #D8EDC4 100%);
   }
-
-  /* 배경 별 */
-  .stars { position: absolute; inset: 0; pointer-events: none; }
-  .stars i {
+  /* 흘러가는 도트 구름 */
+  .clouds { position: absolute; inset: 0; pointer-events: none; }
+  .clouds i {
     position: absolute;
-    width: 3px; height: 3px;
-    background: var(--purple-lt);
-    animation: twinkle 3s steps(2) infinite;
+    display: block;
+    background: rgba(255,255,255,.92);
+    box-shadow: 10px -6px 0 0 rgba(255,255,255,.92),
+                22px  0px 0 0 rgba(255,255,255,.92),
+                34px -4px 0 0 rgba(255,255,255,.92);
+    animation: drift linear infinite;
   }
-  @keyframes twinkle { 0%,100% { opacity: .25; } 50% { opacity: 1; } }
+  @keyframes drift {
+    from { transform: translateX(-70px); }
+    to   { transform: translateX(540px); }
+  }
+  .sun {
+    position: absolute;
+    top: 8%; right: 12%;
+    width: 40px; height: 40px;
+  }
+  .sun rect { fill: #FFD35B; }
+  .sun .glow { fill: rgba(255,224,120,.35); }
 
-  .heart-pix { width: 56px; height: 48px; margin-bottom: 22px; }
+  .heart-pix { width: 52px; height: 45px; margin-bottom: 20px; position: relative; }
   .heart-pix rect { fill: var(--pink); }
 
   .title h1 {
     font-family: 'Press Start 2P', monospace;
     font-size: 17px;
     line-height: 1.8;
-    color: var(--gold);
+    color: #fff;
     letter-spacing: 1px;
-    margin-bottom: 6px;
-    text-shadow: 3px 3px 0 var(--purple);
+    margin-bottom: 8px;
+    position: relative;
+    text-shadow: 3px 3px 0 var(--green-d), -1px -1px 0 var(--green-d),
+                 1px -1px 0 var(--green-d), -1px 1px 0 var(--green-d);
   }
-  .title .sub {
-    font-size: 10px;
-    color: var(--purple-lt);
-    letter-spacing: 2px;
-    margin-bottom: 30px;
-  }
-  .title .names {
-    font-size: 22px;
-    line-height: 2.1;
-    letter-spacing: 3px;
-  }
+  .title .sub { font-size: 10px; color: var(--green-d); letter-spacing: 2px; margin-bottom: 28px; position: relative; }
+  .title .names { font-size: 22px; line-height: 2.1; letter-spacing: 3px; position: relative; }
   .title .names .amp { color: var(--pink); }
-  .title .meta {
-    margin-top: 18px;
-    font-size: 12px;
-    color: var(--dim);
-    line-height: 2.1;
-  }
+  .title .meta { margin-top: 16px; font-size: 12px; color: #47616F; line-height: 2.1; position: relative; }
   .press {
-    margin-top: 36px;
+    margin-top: 34px;
     font-size: 11px;
-    color: var(--gold);
-    background: none;
+    color: #fff;
+    background: var(--green);
     border: none;
+    border-bottom: 3px solid var(--green-d);
+    padding: 11px 18px;
     cursor: pointer;
     font-family: inherit;
     letter-spacing: 1px;
-    animation: blink 1.1s steps(2) infinite;
+    position: relative;
+    animation: nudge 1.4s steps(2) infinite;
   }
-  @keyframes blink { 0%,49% { opacity: 1; } 50%,100% { opacity: .15; } }
+  @keyframes nudge { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
 
   /* ===== 섹션 ===== */
-  .sec { padding: 30px 16px; }
-  .sec-head {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
+  .sec { padding: 28px 16px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; margin-bottom: 13px; }
   .sec-head .bar { flex: 1; height: 1px; background: var(--line); }
   .sec-head h2 {
     font-size: 10.5px;
@@ -221,367 +196,189 @@
     font-weight: normal;
     text-transform: uppercase;
   }
-  .sec-head h2::before { content: '> '; color: var(--gold); }
+  .sec-head h2::before { content: '> '; color: var(--green); }
 
-  /* ===== 퀘스트 장면 ===== */
+  /* ===== 퀘스트 출발 장면 ===== */
   .scene {
     width: 100%;
     height: auto;
     display: block;
-    border: 3px solid var(--line);
+    border: 3px solid var(--line-dk);
     image-rendering: pixelated;   /* 사진을 128px 도트로 줄인 뒤 확대해 보여준다 */
     background: #C8D8E8;
   }
-  .lv { text-align: center; padding: 20px 6px 4px; }
-  .lv .players {
-    font-size: 13px;
-    letter-spacing: 1px;
-    color: var(--gold);
-    margin-bottom: 10px;
-  }
+  .lv { text-align: center; padding: 20px 6px 2px; }
+  .lv .players { font-size: 13px; letter-spacing: 1px; color: var(--green-d); margin-bottom: 9px; }
   .lv .players .h { color: var(--pink); }
-  .lv h2 {
+  .lv h3 {
     font-family: 'Press Start 2P', monospace;
-    font-size: 26px;
+    font-size: 25px;
     line-height: 1.5;
     letter-spacing: 1px;
-    color: #fff;
+    color: var(--gold);
     font-weight: normal;
-    text-shadow: 0 0 14px rgba(167,139,250,.6);
-    margin-bottom: 14px;
+    text-shadow: 2px 2px 0 #fff, 3px 3px 0 rgba(110,147,172,.35);
+    margin-bottom: 13px;
   }
   .lv p { font-size: 12.5px; color: var(--dim); line-height: 2.1; }
 
-  /* ===== QUEST LOG ===== */
-  .qlog { padding: 18px 14px; }
-  .qlog h3 {
-    font-size: 12px;
-    color: var(--purple-lt);
-    letter-spacing: 2px;
-    text-align: center;
-    margin-bottom: 16px;
-    font-weight: normal;
-  }
-  .qitem { display: flex; gap: 12px; padding: 8px 0; }
-  .qitem svg { width: 24px; height: 24px; flex: none; margin-top: 5px; }
-  .qitem svg rect { fill: var(--purple-lt); }
-  .qitem .yr { font-size: 11px; color: var(--dim); letter-spacing: 1px; }
-  .qitem .yr.todo { color: var(--pink); }
-  .qitem .ti { font-size: 13px; color: var(--text); margin: 1px 0 3px; }
-  .qitem .de { font-size: 11.5px; color: var(--dim); line-height: 1.95; }
-  .qnext {
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 2px solid var(--line);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 12px;
-  }
-  .qnext .arrow { color: var(--pink); }
-
-  /* ===== 캐릭터 카드 ===== */
-  .party { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .char { padding: 12px 10px; text-align: center; }
-  .char .ava svg { width: 74px; height: auto; display: block; margin: 0 auto; }
-  .char .role {
-    margin-top: 10px;
-    font-size: 9px;
-    color: var(--purple-lt);
-    letter-spacing: 1px;
-  }
-  .char .nm { font-size: 15px; margin-top: 2px; letter-spacing: 1px; }
-  .char dl {
-    margin-top: 10px;
-    font-size: 10px;
-    text-align: left;
-    line-height: 1.9;
-    color: var(--dim);
-  }
-  .char dl div { display: flex; justify-content: space-between; gap: 6px; }
-  .char dl dt { color: var(--dim); }
-  .char dl dd { color: var(--text); text-align: right; }
-
-  .bar-row { display: flex; align-items: center; gap: 6px; margin-top: 5px; font-size: 9px; }
-  .bar-row span { color: var(--dim); min-width: 26px; text-align: left; }
-  .gauge { flex: 1; height: 8px; background: var(--slot); border: 2px solid var(--line); display: flex; gap: 1px; padding: 1px; }
-  .gauge i { flex: 1; background: var(--mint); }
-  .gauge.love i { background: var(--pink); }
-  .gauge.gold i { background: var(--gold); }
-
   /* ===== 대화창 ===== */
-  .dialog { padding: 14px 14px 12px; }
-  .dialog p { font-size: 12.5px; line-height: 2.15; color: var(--text); }
+  .dialog { padding: 15px 14px 13px; }
+  .dialog p { font-size: 12.5px; line-height: 2.2; }
   .dialog .cursor {
-    display: block;
-    text-align: right;
-    color: var(--gold);
-    font-size: 11px;
-    margin-top: 6px;
+    display: block; text-align: right; color: var(--green);
+    font-size: 11px; margin-top: 6px;
     animation: bob .9s steps(2) infinite;
   }
   @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
-
   .parents {
-    margin-top: 10px;
-    padding: 12px 14px;
-    font-size: 11.5px;
-    line-height: 2.2;
-    text-align: center;
-    color: var(--text);
+    margin-top: 10px; padding: 13px 14px;
+    font-size: 11.5px; line-height: 2.2; text-align: center;
   }
   .parents .of { color: var(--dim); font-size: 10px; }
   .parents .gone { color: var(--dim); font-size: 9px; }
 
-  /* ===== 인벤토리 ===== */
-  .inv-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+  /* ===== QUEST LOG (예식 상세) ===== */
+  .qlog { padding: 16px 14px; }
+  .qlog h3 {
+    font-size: 12px; color: var(--green-d); letter-spacing: 2px;
+    text-align: center; margin-bottom: 14px; font-weight: normal;
   }
+  .qitem { display: flex; gap: 12px; padding: 11px 0; border-top: 1px dashed var(--line); }
+  .qitem:first-child { border-top: 0; padding-top: 0; }
+  .qitem svg { width: 24px; height: 24px; flex: none; margin-top: 4px; }
+  .qitem svg rect { fill: var(--green); }
+  .qitem .k { font-size: 10px; color: var(--blue); letter-spacing: 1.5px; }
+  .qitem .v { font-size: 13px; margin: 2px 0 1px; }
+  .qitem .s { font-size: 11.5px; color: var(--dim); line-height: 1.95; }
+
+  .cd { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 8px; }
+  .cd div { background: var(--slot); border: 2px solid var(--line); padding: 7px 2px; text-align: center; }
+  .cd b {
+    display: block; font-family: 'Press Start 2P', monospace;
+    font-size: 13px; color: var(--green-d); font-weight: normal;
+  }
+  .cd span { font-size: 8px; color: var(--dim); letter-spacing: 1px; }
+
+  #pix-map {
+    width: 100%; height: 180px; margin-top: 12px;
+    border: 2px solid var(--line); background: var(--slot);
+  }
+  .qnext {
+    margin-top: 14px; padding-top: 12px; border-top: 2px solid var(--line);
+    display: flex; align-items: center; justify-content: space-between; font-size: 12px;
+  }
+  .qnext .arrow { color: var(--pink); }
+
+  /* ===== 인벤토리 ===== */
+  .inv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
   .slot {
     background: var(--slot);
     border: 3px solid var(--line);
-    box-shadow: inset 2px 2px 0 rgba(255,255,255,.07),
-                inset -2px -2px 0 rgba(0,0,0,.5);
-    padding: 12px 4px 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 7px;
-    cursor: pointer;
-    font-family: inherit;
-    color: var(--dim);
-    font-size: 10px;
-    letter-spacing: 0;
+    box-shadow: inset 2px 2px 0 #fff, inset -2px -2px 0 rgba(110,147,172,.18);
+    padding: 12px 4px 9px;
+    display: flex; flex-direction: column; align-items: center; gap: 7px;
+    cursor: pointer; font-family: inherit; color: var(--dim); font-size: 10px;
     transition: transform .08s steps(2);
   }
   .slot svg { width: 26px; height: 26px; }
-  .slot svg rect { fill: var(--purple-lt); }
+  .slot svg rect { fill: var(--line-dk); }
   .slot:hover { transform: translateY(-2px); }
   .slot[aria-selected="true"] {
-    border-color: var(--gold);
-    background: var(--panel-2);
-    color: var(--gold);
+    border-color: var(--green); background: #fff; color: var(--green-d);
   }
-  .slot[aria-selected="true"] svg rect { fill: var(--gold); }
+  .slot[aria-selected="true"] svg rect { fill: var(--green); }
 
   .panel { margin-top: 10px; }
   .panel-body { padding: 14px; }
   .panel[hidden] { display: none; }
 
-  /* ===== 예식 정보 ===== */
-  .when { text-align: center; }
-  .when .big {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 19px;
-    color: var(--gold);
-    letter-spacing: 1px;
-    text-shadow: 2px 2px 0 var(--purple);
+  /* ===== 버튼 ===== */
+  .btn {
+    display: block; width: 100%; margin-top: 10px;
+    font-family: inherit; font-size: 12px; letter-spacing: 1px;
+    color: #fff; background: var(--green);
+    border: none; border-bottom: 3px solid var(--green-d);
+    padding: 12px; cursor: pointer;
   }
-  .when .small { font-size: 12px; color: var(--dim); margin-top: 10px; }
-  .cd {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-    margin-top: 16px;
-  }
-  .cd div {
-    background: var(--slot);
-    border: 2px solid var(--line);
-    padding: 8px 2px;
-  }
-  .cd b {
-    display: block;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 14px;
-    color: var(--mint);
-    font-weight: normal;
-  }
-  .cd span { font-size: 8px; color: var(--dim); letter-spacing: 1px; }
+  .btn:active { border-bottom-width: 1px; transform: translateY(2px); }
 
-  /* ===== 지도 ===== */
-  .addr { text-align: center; font-size: 12px; line-height: 2; }
-  .addr .venue { font-size: 15px; color: var(--gold); letter-spacing: 2px; }
-  .addr .dim { color: var(--dim); font-size: 11px; }
-  #pix-map {
-    width: 100%;
-    height: 190px;
-    margin-top: 12px;
-    border: 3px solid var(--line);
-    background: var(--slot);
-  }
-  .ways { margin-top: 12px; }
-  .way { border-top: 2px solid var(--line); padding: 9px 2px; font-size: 11px; line-height: 1.9; }
-  .way b { color: var(--purple-lt); font-weight: normal; display: block; font-size: 10px; margin-bottom: 2px; }
-
-  /* ===== 갤러리 ===== */
-  .film { overflow: hidden; border: 3px solid var(--line); background: var(--slot); cursor: grab; }
-  .film-track { display: flex; transition: transform .35s steps(6); }
-  .film-slide { min-width: 100%; aspect-ratio: 2/3; }
-  .film-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .film-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 10px;
-    font-size: 11px;
-    color: var(--dim);
-  }
-  .film-nav button {
-    font-family: inherit;
-    font-size: 11px;
-    color: var(--gold);
-    background: var(--slot);
-    border: 2px solid var(--line);
-    padding: 6px 12px;
-    cursor: pointer;
-  }
-  .film-nav button:disabled { color: #5b5175; cursor: default; }
-
-  /* ===== 계좌 (장바구니) ===== */
-  .cart-note {
-    font-size: 11px;
-    color: var(--dim);
-    text-align: center;
-    line-height: 2;
-    margin-bottom: 12px;
-  }
-  .tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+  /* ===== 계좌 ===== */
+  .note { font-size: 11.5px; color: var(--dim); text-align: center; line-height: 2; margin-bottom: 12px; }
+  .tabs { display: flex; gap: 7px; margin-bottom: 10px; }
   .tabs button {
-    flex: 1;
-    font-family: inherit;
-    font-size: 11px;
-    padding: 8px 4px;
-    color: var(--dim);
-    background: var(--slot);
-    border: 2px solid var(--line);
-    cursor: pointer;
+    flex: 1; font-family: inherit; font-size: 11px; padding: 9px 4px;
+    color: var(--dim); background: var(--slot); border: 2px solid var(--line); cursor: pointer;
   }
-  .tabs button[aria-selected="true"] { color: var(--bg); background: var(--gold); border-color: var(--gold); }
-
+  .tabs button[aria-selected="true"] { color: #fff; background: var(--green); border-color: var(--green-d); }
   .acct {
-    border: 2px solid var(--line);
-    background: var(--slot);
-    padding: 10px;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
+    border: 2px solid var(--line); background: var(--slot);
+    padding: 11px; margin-bottom: 7px;
+    display: flex; align-items: center; justify-content: space-between; gap: 9px;
   }
-  .acct .bank { font-size: 10px; color: var(--purple-lt); }
-  .acct .no { font-size: 12.5px; letter-spacing: 0.5px; }
-  .acct .who2 { font-size: 10px; color: var(--dim); }
+  .acct .bank { font-size: 10px; color: var(--blue); }
+  .acct .no { font-size: 12.5px; }
+  .acct .who { font-size: 10px; color: var(--dim); }
   .acct button {
-    font-family: inherit;
-    font-size: 10px;
-    color: var(--bg);
-    background: var(--mint);
-    border: none;
-    padding: 8px 10px;
-    cursor: pointer;
-    white-space: nowrap;
+    font-family: inherit; font-size: 10px; color: #fff; background: var(--green);
+    border: none; padding: 9px 12px; cursor: pointer; white-space: nowrap;
   }
   .acct button.done { background: var(--gold); }
 
-  /* ===== RSVP ===== */
+  /* ===== 폼 ===== */
   .field { margin-bottom: 12px; }
-  .field label { display: block; font-size: 10px; color: var(--purple-lt); margin-bottom: 5px; letter-spacing: 1px; }
+  .field label { display: block; font-size: 10px; color: var(--blue); margin-bottom: 6px; letter-spacing: 1px; }
+  .field label::before { content: '> '; color: var(--green); }
   .field input[type="text"], .field input[type="number"], .field textarea {
-    width: 100%;
-    font-family: inherit;
-    font-size: 13px;
-    color: var(--text);
-    background: var(--slot);
-    border: 2px solid var(--line);
-    padding: 9px;
-    outline: none;
+    width: 100%; font-family: inherit; font-size: 13px; color: var(--text);
+    background: #fff; border: 2px solid var(--line); padding: 10px; outline: none;
   }
-  .field input:focus, .field textarea:focus { border-color: var(--gold); }
-  .field textarea { resize: vertical; min-height: 64px; line-height: 1.8; }
+  .field input:focus, .field textarea:focus { border-color: var(--green); }
+  .field textarea { resize: vertical; min-height: 62px; line-height: 1.8; }
   .choice { display: flex; gap: 8px; }
   .choice label {
-    flex: 1;
-    text-align: center;
-    font-size: 12px;
-    color: var(--dim);
-    background: var(--slot);
-    border: 2px solid var(--line);
-    padding: 10px 4px;
-    cursor: pointer;
-    margin: 0;
-    letter-spacing: 0;
+    flex: 1; text-align: center; font-size: 12px; color: var(--dim);
+    background: var(--slot); border: 2px solid var(--line);
+    padding: 11px 4px; cursor: pointer; margin: 0;
   }
-  .choice label:has(input:checked) { color: var(--bg); background: var(--mint); border-color: var(--mint); }
+  .choice label::before { content: none; }
+  .choice label:has(input:checked) { color: #fff; background: var(--green); border-color: var(--green-d); }
   .choice input { position: absolute; opacity: 0; pointer-events: none; }
-  #pix-guests-field { display: none; }
-  #pix-guests-field.show { display: block; }
-  .submit {
-    width: 100%;
-    font-family: inherit;
-    font-size: 12px;
-    letter-spacing: 1px;
-    color: var(--bg);
-    background: var(--gold);
-    border: none;
-    padding: 13px;
-    cursor: pointer;
-    box-shadow: inset -2px -3px 0 rgba(0,0,0,.35);
-  }
-  .submit:active { box-shadow: inset 2px 3px 0 rgba(0,0,0,.35); }
-  .submit:disabled { background: #6b6285; color: #2a2340; cursor: default; }
+  #guests-field { display: none; }
+  #guests-field.show { display: block; }
   .status { margin-top: 10px; font-size: 11px; text-align: center; min-height: 18px; }
-  .status.ok { color: var(--mint); }
-  .status.err { color: var(--pink); }
-
-  /* ===== 공유 ===== */
-  .share-wrap { text-align: center; }
-  .share-wrap p { font-size: 11px; color: var(--dim); line-height: 2; margin-bottom: 12px; }
-  .share-btn {
-    font-family: inherit;
-    font-size: 12px;
-    letter-spacing: 1px;
-    color: var(--bg);
-    background: var(--purple-lt);
-    border: none;
-    padding: 12px 22px;
-    cursor: pointer;
-    box-shadow: inset -2px -3px 0 rgba(0,0,0,.35);
-  }
-  .share-btn:active { box-shadow: inset 2px 3px 0 rgba(0,0,0,.35); }
+  .status.ok { color: var(--green-d); }
+  .status.err { color: #C2185B; }
 
   /* ===== 푸터 ===== */
-  .foot { text-align: center; padding: 34px 16px 46px; border-top: 3px solid var(--line); }
-  .foot .thanks { font-family: 'Press Start 2P', monospace; font-size: 10px; color: var(--gold); line-height: 2.2; }
-  .foot .names2 { font-size: 12px; color: var(--dim); margin-top: 12px; letter-spacing: 2px; }
-  .foot svg { width: 28px; height: 24px; margin-bottom: 14px; }
+  .foot {
+    text-align: center; padding: 32px 16px 46px;
+    border-top: 2px solid var(--line);
+    background: linear-gradient(180deg, var(--sky-2) 0%, #E4F2D8 100%);
+  }
+  .foot svg { width: 30px; height: 26px; margin-bottom: 12px; }
   .foot svg rect { fill: var(--pink); }
+  .foot .thanks {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px; color: var(--green-d); line-height: 2.2;
+  }
+  .foot .names2 { font-size: 12px; color: var(--dim); margin-top: 12px; letter-spacing: 2px; }
 
   /* ===== 토스트 ===== */
   .toast {
-    position: fixed;
-    left: 50%;
-    bottom: 26px;
-    transform: translateX(-50%) translateY(20px);
-    background: var(--gold);
-    color: var(--bg);
-    font-size: 11px;
-    padding: 11px 16px;
-    border: 3px solid #8a6b12;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .2s, transform .2s;
-    z-index: 95;
-    white-space: nowrap;
+    position: fixed; left: 50%; bottom: 24px;
+    transform: translateX(-50%) translateY(18px);
+    background: var(--text); color: #fff; font-size: 11px;
+    padding: 11px 16px; opacity: 0; pointer-events: none;
+    transition: opacity .2s, transform .2s; z-index: 95; white-space: nowrap;
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
   @media (max-width: 360px) {
     .title h1 { font-size: 14px; }
+    .lv h3 { font-size: 21px; }
     .slot { font-size: 9px; }
   }
-
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; }
   }
@@ -591,74 +388,74 @@
 
 <div class="screen">
 
-  <!-- ===== 터미널 창 바 ===== -->
   <div class="termbar">
     <span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span>
-    <span class="tname">wedding_invitation.sh</span>
-    <span class="ttag">2026.10.24</span>
+    <span class="tname mono">wedding_invitation.sh</span>
+    <span class="ttag mono">2026.10.24</span>
   </div>
 
-  <!-- ===== HUD ===== -->
   <div class="hud">
     <span class="who">♥ <b>홍준호</b> &amp; <b>전희선</b></span>
     <span class="dday" id="hud-dday">D-000</span>
   </div>
 
-  <!-- ===== 타이틀 화면 ===== -->
+  <!-- ===== 타이틀 ===== -->
   <section class="title">
-    <div class="stars" id="stars" aria-hidden="true"></div>
+    <div class="clouds" id="clouds" aria-hidden="true"></div>
+    <svg class="sun" viewBox="0 0 11 11" shape-rendering="crispEdges" aria-hidden="true">
+      <rect class="glow" x="3" y="0" width="5" height="1"/><rect class="glow" x="1" y="1" width="9" height="2"/>
+      <rect class="glow" x="0" y="3" width="11" height="5"/><rect class="glow" x="1" y="8" width="9" height="2"/>
+      <rect class="glow" x="3" y="10" width="5" height="1"/>
+      <rect x="4" y="1" width="3" height="1"/><rect x="3" y="2" width="5" height="1"/>
+      <rect x="2" y="3" width="7" height="1"/><rect x="2" y="4" width="7" height="1"/>
+      <rect x="2" y="5" width="7" height="1"/><rect x="2" y="6" width="7" height="1"/>
+      <rect x="2" y="7" width="7" height="1"/><rect x="3" y="8" width="5" height="1"/>
+      <rect x="4" y="9" width="3" height="1"/>
+    </svg>
 
     <svg class="heart-pix" viewBox="0 0 7 6" shape-rendering="crispEdges" aria-hidden="true">
       <rect x="1" y="0" width="2" height="1"/><rect x="4" y="0" width="2" height="1"/>
-      <rect x="0" y="1" width="7" height="1"/>
-      <rect x="0" y="2" width="7" height="1"/>
-      <rect x="1" y="3" width="5" height="1"/>
-      <rect x="2" y="4" width="3" height="1"/>
+      <rect x="0" y="1" width="7" height="1"/><rect x="0" y="2" width="7" height="1"/>
+      <rect x="1" y="3" width="5" height="1"/><rect x="2" y="4" width="3" height="1"/>
       <rect x="3" y="5" width="1" height="1"/>
     </svg>
 
     <h1>WEDDING<br>QUEST</h1>
-    <p class="sub">- PRESS START -</p>
+    <p class="sub">- 여정이 시작됩니다 -</p>
+    <div class="names">홍준호 <span class="amp">♥</span> 전희선</div>
+    <p class="meta">2026. 10. 24 SAT 12:00<br>판교 아연당</p>
 
-    <div class="names">
-      홍준호 <span class="amp">♥</span> 전희선
-    </div>
-    <p class="meta">
-      2026. 10. 24 SAT 12:00<br>
-      판교 아연당
-    </p>
-
-    <button class="press" onclick="document.getElementById('party').scrollIntoView()">▼ 눌러서 시작하기</button>
+    <button class="press" onclick="document.getElementById('start').scrollIntoView()">▼ 여정 시작하기</button>
   </section>
 
-  <!-- ===== 퀘스트 출발 장면 ===== -->
-  <section class="sec" id="party">
+  <!-- ===== 퀘스트 출발 ===== -->
+  <section class="sec" id="start">
     <div class="sec-head"><h2 class="en">Quest Start</h2><div class="bar"></div></div>
     <img class="scene" src="photos/quest-scene.png"
          alt="들판을 가로질러 함께 걸어가는 두 사람" width="128" height="135">
     <div class="lv">
       <p class="players">PLAYER 1 <span class="h">♥</span> PLAYER 2</p>
-      <h2>LEVEL UP!</h2>
+      <h3>LEVEL UP!</h3>
       <p>
-        저희 두 사람이 새로운 게임의 시작점에서<br>
+        저희 두 사람이 새로운 여정의 시작점에서<br>
         함께할 동료로 당신을 초대합니다.
       </p>
     </div>
   </section>
 
-  <!-- ===== 인사말 ===== -->
+  <!-- ===== 초대 인사말 ===== -->
   <section class="sec">
-    <div class="sec-head"><h2 class="en">QUEST</h2><div class="bar"></div></div>
+    <div class="sec-head"><h2 class="en">New Quest</h2><div class="bar"></div></div>
     <div class="px">
       <p class="px-title">▶ 초대합니다</p>
       <div class="dialog">
         <p>
-          서로 다른 길을 걸어온 두 사람이<br>
-          이제 같은 길을 걸어가려 합니다.<br><br>
+          서로 다른 길에서 출발한 두 사람이<br>
+          이제 같은 길을 함께 걸어가려 합니다.<br><br>
           단풍이 물드는 가을날,<br>
           저희 두 사람이 사랑의 서약을 하려 합니다.<br><br>
           귀한 걸음 하시어<br>
-          축복해 주시면 감사하겠습니다.
+          이 여정의 첫 장면을 함께해 주세요.
         </p>
         <span class="cursor">▼</span>
       </div>
@@ -669,87 +466,43 @@
     </div>
   </section>
 
-  <!-- ===== 퀘스트 로그 ===== -->
+  <!-- ===== 퀘스트 로그 = 예식 상세 ===== -->
   <section class="sec">
     <div class="sec-head"><h2 class="en">Our Quest Log</h2><div class="bar"></div></div>
     <div class="px qlog">
       <h3>OUR QUEST LOG</h3>
       <div id="qlog-list"></div>
-      <div class="qnext"><span>다음 퀵스트 : 결혼</span><span class="arrow">▶</span></div>
+      <div id="map-slot"></div>
+      <button type="button" class="btn" onclick="openMapApp()">카카오맵으로 길찾기</button>
+      <div class="qnext"><span>다음 퀘스트 : 결혼</span><span class="arrow">▶</span></div>
     </div>
   </section>
 
   <!-- ===== 인벤토리 ===== -->
   <section class="sec">
-    <div class="sec-head"><h2 class="en">INVENTORY</h2><div class="bar"></div></div>
-
+    <div class="sec-head"><h2 class="en">Inventory</h2><div class="bar"></div></div>
     <div class="inv-grid" id="inv" role="tablist"></div>
 
-    <!-- 예식 정보 -->
-    <div class="panel px" id="p-when">
-      <p class="px-title">▶ 예식 정보</p>
-      <div class="panel-body when">
-        <p class="big">2026.10.24</p>
-        <p class="small">토요일 낮 12시 · 판교 아연당</p>
-        <div class="cd">
-          <div><b id="cd-d">0</b><span>DAYS</span></div>
-          <div><b id="cd-h">0</b><span>HOUR</span></div>
-          <div><b id="cd-m">0</b><span>MIN</span></div>
-          <div><b id="cd-s">0</b><span>SEC</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 오시는 길 -->
-    <div class="panel px" id="p-map" hidden>
-      <p class="px-title">▶ 오시는 길</p>
-      <div class="panel-body">
-        <div class="addr">
-          <p class="venue">아연당</p>
-          <p class="dim">경기도 성남시 분당구 판교백현로 55-7 1층</p>
-          <p class="dim">(백현동 496) · 031-709-8094</p>
-        </div>
-        <div id="pix-map"></div>
-        <div class="ways">
-          <div class="way"><b>지하철</b>수인분당선 정자역 하차 → 1번 출구에서 아연당 셔틀버스 이용</div>
-          <div class="way"><b>셔틀버스</b>정자역 1번 출구에서 수시 운행</div>
-          <div class="way"><b>버스</b>107 · 117 · 310 · 370번 → 더샵 판교퍼스트파크 정문 하차 후 도보 3분</div>
-          <div class="way"><b>자가용</b>내비게이션에 '아연당' 또는 '판교백현로 55-7' 검색 (주차 문의 031-709-8094)</div>
-        </div>
-        <div class="film-nav" style="justify-content:center; margin-top:14px;">
-          <button type="button" onclick="openMapApp()">카카오맵 길찾기</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 마음 전하실 곳 -->
-    <div class="panel px" id="p-gift" hidden>
+    <div class="panel px" id="p-gift">
       <p class="px-title">▶ 마음 전하실 곳</p>
       <div class="panel-body">
-        <p class="cart-note">
-          참석이 어려우신 분들을 위해<br>
-          계좌번호를 기재하였습니다.
-        </p>
-        <div class="tabs" role="tablist">
-          <button type="button" role="tab" aria-selected="true" onclick="showAccounts('groom', this)">신랑측</button>
-          <button type="button" role="tab" aria-selected="false" onclick="showAccounts('bride', this)">신부측</button>
+        <p class="note">참석이 어려우신 분들을 위해<br>계좌번호를 기재하였습니다.</p>
+        <div class="tabs">
+          <button type="button" aria-selected="true" onclick="showAccounts('groom', this)">신랑측</button>
+          <button type="button" aria-selected="false" onclick="showAccounts('bride', this)">신부측</button>
         </div>
         <div id="acct-list"></div>
       </div>
     </div>
 
-    <!-- 참석 회신 -->
     <div class="panel px" id="p-rsvp" hidden>
       <p class="px-title">▶ 참석 회신</p>
       <div class="panel-body">
-        <p class="cart-note">
-          참석 여부를 미리 알려주시면<br>
-          정성껏 준비하는 데 큰 도움이 됩니다.
-        </p>
-        <form id="pix-rsvp" onsubmit="submitRSVP(event)">
+        <p class="note">참석 여부를 미리 알려주시면<br>정성껏 준비하는 데 큰 도움이 됩니다.</p>
+        <form id="rsvp-form" onsubmit="submitRSVP(event)">
           <div class="field">
-            <label for="pix-name">성함</label>
-            <input type="text" id="pix-name" autocomplete="name" placeholder="이름을 입력해주세요">
+            <label for="f-name">성함</label>
+            <input type="text" id="f-name" autocomplete="name" placeholder="이름을 입력해주세요">
           </div>
           <div class="field">
             <label>참석 여부</label>
@@ -758,44 +511,37 @@
               <label><input type="radio" name="attendance" value="불참">불참</label>
             </div>
           </div>
-          <div class="field" id="pix-guests-field">
-            <label for="pix-guests">동행 인원 (본인 포함)</label>
-            <input type="number" id="pix-guests" min="1" max="20" value="1">
+          <div class="field" id="guests-field">
+            <label for="f-guests">동행 인원 (본인 포함)</label>
+            <input type="number" id="f-guests" min="1" max="20" value="1">
           </div>
           <div class="field">
-            <label for="pix-message">전하고 싶은 말 (선택)</label>
-            <textarea id="pix-message" placeholder="축하 메시지를 남겨주세요"></textarea>
+            <label for="f-msg">전하고 싶은 말 (선택)</label>
+            <textarea id="f-msg" placeholder="축하 메시지를 남겨주세요"></textarea>
           </div>
-          <button type="submit" class="submit" id="pix-submit">회신하기</button>
-          <p class="status" id="pix-status"></p>
+          <button type="submit" class="btn" id="f-submit">회신하기</button>
+          <p class="status" id="f-status"></p>
         </form>
       </div>
     </div>
 
-    <!-- 공유 -->
     <div class="panel px" id="p-share" hidden>
       <p class="px-title">▶ 공유하기</p>
-      <div class="panel-body share-wrap">
-        <p>
-          청첩장을 주변에 전해주세요.<br>
-          링크를 복사하거나 바로 공유할 수 있습니다.
-        </p>
-        <button type="button" class="share-btn" onclick="shareInvitation()">청첩장 공유하기</button>
+      <div class="panel-body" style="text-align:center">
+        <p class="note">청첩장을 주변에 전해주세요.<br>링크를 복사하거나 바로 공유할 수 있습니다.</p>
+        <button type="button" class="btn" onclick="shareInvitation()">청첩장 공유하기</button>
       </div>
     </div>
   </section>
 
-  <!-- ===== 푸터 ===== -->
   <footer class="foot">
     <svg viewBox="0 0 7 6" shape-rendering="crispEdges" aria-hidden="true">
       <rect x="1" y="0" width="2" height="1"/><rect x="4" y="0" width="2" height="1"/>
-      <rect x="0" y="1" width="7" height="1"/>
-      <rect x="0" y="2" width="7" height="1"/>
-      <rect x="1" y="3" width="5" height="1"/>
-      <rect x="2" y="4" width="3" height="1"/>
+      <rect x="0" y="1" width="7" height="1"/><rect x="0" y="2" width="7" height="1"/>
+      <rect x="1" y="3" width="5" height="1"/><rect x="2" y="4" width="3" height="1"/>
       <rect x="3" y="5" width="1" height="1"/>
     </svg>
-    <p class="thanks">THANK YOU<br>FOR PLAYING</p>
+    <p class="thanks">THANK YOU<br>FOR JOINING</p>
     <p class="names2">2026. 10. 24 · 홍준호 &amp; 전희선</p>
   </footer>
 </div>
@@ -808,78 +554,10 @@
   'use strict';
 
   var WEDDING = new Date('2026-10-24T12:00:00+09:00');
-  var VENUE = { name: '아연당', lat: 37.3820393, lng: 127.0932595 };
+  var VENUE   = { name: '아연당', lat: 37.3820393, lng: 127.0932595 };
   var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyfNTavME_ll_I1xOswdJG9lM91AqaA4ZE8CkqjZbXewgd3eQB2QNOeW7S2SeEi-AfuNQ/exec';
 
-  // ===== 배경 별 =====
-  (function stars() {
-    var box = document.getElementById('stars'), html = '';
-    for (var i = 0; i < 26; i++) {
-      html += '<i style="left:' + (Math.random() * 96 + 2).toFixed(1) + '%;top:' +
-              (Math.random() * 92 + 3).toFixed(1) + '%;animation-delay:' +
-              (Math.random() * 3).toFixed(1) + 's"></i>';
-    }
-    box.innerHTML = html;
-  })();
-
-  // ===== 카운트다운 =====
-  function tick() {
-    var diff = WEDDING - new Date();
-    if (diff < 0) diff = 0;
-    var s = Math.floor(diff / 1000);
-    var d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600),
-        m = Math.floor(s % 3600 / 60), sec = s % 60;
-    document.getElementById('cd-d').textContent = d;
-    document.getElementById('cd-h').textContent = h;
-    document.getElementById('cd-m').textContent = m;
-    document.getElementById('cd-s').textContent = sec;
-    document.getElementById('hud-dday').textContent = d > 0 ? 'D-' + d : 'D-DAY';
-  }
-  tick();
-  setInterval(tick, 1000);
-
-  // ===== 퀘스트 로그 =====
-  var QICONS = {
-    pad:   ['........','.XXXXXX.','XX.XX.XX','XXXXXXXX','XX.XX.XX','.XXXXXX.','........','........'],
-    box:   ['.XXXXXX.','XXXXXXXX','XX.XX.XX','XXXXXXXX','XX.XX.XX','XX.XX.XX','XXXXXXXX','.XXXXXX.'],
-    heart: ['.XX..XX.','XXXXXXXX','XXXXXXXX','XXXXXXXX','.XXXXXX.','..XXXX..','...XX...','........']
-  };
-  // 연도는 두 분이 알려주시면 채웁니다.
-  var QLOG = [
-    { icon: 'pad',   year: '20XX', todo: true,
-      title: '첫 만남',
-      desc: ['서로를 처음 만난 날.'] },
-    { icon: 'box',   year: '20XX', todo: true,
-      title: '함께한 시간',
-      desc: ['서로의 세계를 알아가며', '가장 든든한 파트너가 되었다.'] },
-    { icon: 'heart', year: '2026', todo: false,
-      title: '새로운 시작',
-      desc: ['이제 서로의 인생을', '함께 플레이하려 한다.'] }
-  ];
-  document.getElementById('qlog-list').innerHTML = QLOG.map(function (q) {
-    return '<div class="qitem">' + pixIcon(QICONS[q.icon]) + '<div>' +
-      '<p class="yr' + (q.todo ? ' todo' : '') + '">' + q.year + '</p>' +
-      '<p class="ti">' + q.title + '</p>' +
-      '<p class="de">' + q.desc.join('<br>') + '</p></div></div>';
-  }).join('');
-
-  // ===== 인벤토리 =====
-  var ICONS = {
-    when: ['.X....X.','XXXXXXXX','XXXXXXXX','X......X','X.XX.X.X','X......X','X.X..X.X','XXXXXXXX'],
-    map:  ['..XXXX..','.XXXXXX.','XX....XX','XX....XX','.XXXXXX.','..XXXX..','...XX...','....X...'],
-    gift: ['.XX..XX.','XXXXXXXX','XXXXXXXX','XXXXXXXX','.XXXXXX.','..XXXX..','...XX...','........'],
-    rsvp: ['XXXXXXXX','XX....XX','X.X..X.X','X..XX..X','X......X','X......X','X......X','XXXXXXXX'],
-    share:['...XX...','..XXXX..','.XXXXXX.','XXXXXXXX','...XX...','...XX...','...XX...','...XX...']
-  };
-  var ITEMS = [
-    { key: 'when',  label: '예식 정보' },
-    { key: 'map',   label: '오시는 길' },
-    { key: 'gift',  label: '마음 전하실 곳' },
-    { key: 'rsvp',  label: '참석 회신' },
-    { key: 'share', label: '공유하기' }
-  ];
-  var PANEL = { when: 'p-when', map: 'p-map', gift: 'p-gift', rsvp: 'p-rsvp', share: 'p-share' };
-
+  // ===== 8x8 도트 아이콘 =====
   function pixIcon(rows) {
     var r = '';
     rows.forEach(function (row, y) {
@@ -896,49 +574,101 @@
     return '<svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true">' + r + '</svg>';
   }
 
+  var ICONS = {
+    when:  ['.X....X.', 'XXXXXXXX', 'XXXXXXXX', 'X......X', 'X.XX.X.X', 'X......X', 'X.X..X.X', 'XXXXXXXX'],
+    where: ['..XXXX..', '.XXXXXX.', 'XX....XX', 'XX....XX', '.XXXXXX.', '..XXXX..', '...XX...', '....X...'],
+    how:   ['........', '..XX....', '..XX....', '.XXXX...', '..XX.XX.', '..XX.XX.', '.XXXXXX.', '........'],
+    call:  ['..XXX...', '.XXXXX..', '.XXX....', '..XXX...', '...XXX..', '....XXX.', '..XXXXX.', '...XXX..'],
+    gift:  ['.XX..XX.', 'XXXXXXXX', 'XXXXXXXX', 'XXXXXXXX', '.XXXXXX.', '..XXXX..', '...XX...', '........'],
+    rsvp:  ['XXXXXXXX', 'XX....XX', 'X.X..X.X', 'X..XX..X', 'X......X', 'X......X', 'X......X', 'XXXXXXXX'],
+    share: ['...XX...', '..XXXX..', '.XXXXXX.', 'XXXXXXXX', '...XX...', '...XX...', '...XX...', '...XX...']
+  };
+
+  // ===== 흘러가는 구름 =====
+  (function clouds() {
+    var conf = [[12, 8, 26], [30, 5, 34], [58, 7, 30], [74, 4, 40], [22, 6, 46]];
+    document.getElementById('clouds').innerHTML = conf.map(function (c, i) {
+      return '<i style="top:' + c[0] + '%;left:-60px;width:' + (c[1] * 3) + 'px;height:' + c[1] +
+             'px;animation-duration:' + c[2] + 's;animation-delay:-' + (i * 6) + 's"></i>';
+    }).join('');
+  })();
+
+  // ===== 퀘스트 로그 = 예식 상세 =====
+  var QLOG = [
+    { icon: 'when', k: 'WHEN', v: '2026년 10월 24일 (토) 낮 12시',
+      extra: '<div class="cd">' +
+             '<div><b id="cd-d">0</b><span>DAYS</span></div>' +
+             '<div><b id="cd-h">0</b><span>HOUR</span></div>' +
+             '<div><b id="cd-m">0</b><span>MIN</span></div>' +
+             '<div><b id="cd-s">0</b><span>SEC</span></div></div>' },
+    { icon: 'where', k: 'WHERE', v: '아연당',
+      s: ['경기 성남시 분당구 판교백현로 55-7 1층', '(백현동 496)'] },
+    { icon: 'how', k: 'HOW TO GET THERE', v: '정자역에서 셔틀버스',
+      s: ['수인분당선 정자역 1번 출구에서 수시 운행',
+          '버스 107 · 117 · 310 · 370번 →',
+          '더샵 판교퍼스트파크 정문 하차 후 도보 3분',
+          '자가용은 내비게이션에 아연당 검색'] },
+    { icon: 'call', k: 'CONTACT', v: '031-709-8094',
+      s: ['아연당 (주차 문의 포함)'] }
+  ];
+  document.getElementById('qlog-list').innerHTML = QLOG.map(function (q) {
+    return '<div class="qitem">' + pixIcon(ICONS[q.icon]) + '<div style="flex:1">' +
+      '<p class="k">' + q.k + '</p>' +
+      '<p class="v">' + q.v + '</p>' +
+      (q.s ? '<p class="s">' + q.s.join('<br>') + '</p>' : '') +
+      (q.extra || '') + '</div></div>';
+  }).join('');
+
+  // ===== 카운트다운 =====
+  function tick() {
+    var diff = Math.max(0, WEDDING - new Date());
+    var s = Math.floor(diff / 1000);
+    var d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600),
+        m = Math.floor(s % 3600 / 60), sec = s % 60;
+    var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
+    set('cd-d', d); set('cd-h', h); set('cd-m', m); set('cd-s', sec);
+    document.getElementById('hud-dday').textContent = d > 0 ? 'D-' + d : 'D-DAY';
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // ===== 인벤토리 =====
+  var ITEMS = [
+    { key: 'gift',  label: '마음 전하실 곳', panel: 'p-gift' },
+    { key: 'rsvp',  label: '참석 회신',      panel: 'p-rsvp' },
+    { key: 'share', label: '공유하기',       panel: 'p-share' }
+  ];
   var invEl = document.getElementById('inv');
   invEl.innerHTML = ITEMS.map(function (it, i) {
     return '<button type="button" class="slot" role="tab" data-key="' + it.key + '" ' +
            'aria-selected="' + (i === 0) + '">' + pixIcon(ICONS[it.key]) +
            '<span>' + it.label + '</span></button>';
   }).join('');
-
   invEl.addEventListener('click', function (e) {
     var btn = e.target.closest('.slot');
-    if (btn) selectItem(btn.dataset.key);
-  });
-
-  function selectItem(key) {
+    if (!btn) return;
     invEl.querySelectorAll('.slot').forEach(function (b) {
-      b.setAttribute('aria-selected', String(b.dataset.key === key));
+      b.setAttribute('aria-selected', String(b === btn));
     });
-    Object.keys(PANEL).forEach(function (k) {
-      document.getElementById(PANEL[k]).hidden = (k !== key);
+    ITEMS.forEach(function (it) {
+      document.getElementById(it.panel).hidden = (it.key !== btn.dataset.key);
     });
-    if (key === 'map') relayoutMap();
-  }
+  });
 
   // ===== 계좌 =====
   var ACCOUNTS = {
-    groom: [
-      { bank: '우리은행', number: '1002-850-351326', holder: '홍준호' }
-    ],
-    bride: [
-      { bank: '국민은행', number: '609901-01-195976', holder: '전희선' },
-      { bank: '우리은행', number: '062-325775-02-001', holder: '전명식 (부)' }
-    ]
+    groom: [ { bank: '우리은행', number: '1002-850-351326', holder: '홍준호' } ],
+    bride: [ { bank: '국민은행', number: '609901-01-195976', holder: '전희선' },
+             { bank: '우리은행', number: '062-325775-02-001', holder: '전명식 (부)' } ]
   };
   window.showAccounts = function (side, btn) {
-    if (btn) {
-      btn.parentNode.querySelectorAll('button').forEach(function (b) {
-        b.setAttribute('aria-selected', String(b === btn));
-      });
-    }
+    if (btn) btn.parentNode.querySelectorAll('button').forEach(function (b) {
+      b.setAttribute('aria-selected', String(b === btn));
+    });
     document.getElementById('acct-list').innerHTML = ACCOUNTS[side].map(function (a) {
       return '<div class="acct"><div>' +
-        '<p class="bank">' + a.bank + '</p>' +
-        '<p class="no">' + a.number + '</p>' +
-        '<p class="who2">' + a.holder + '</p></div>' +
+        '<p class="bank">' + a.bank + '</p><p class="no">' + a.number + '</p>' +
+        '<p class="who">' + a.holder + '</p></div>' +
         '<button type="button" data-no="' + a.number + '">복사</button></div>';
     }).join('');
   };
@@ -947,82 +677,73 @@
   document.getElementById('acct-list').addEventListener('click', function (e) {
     var btn = e.target.closest('button[data-no]');
     if (!btn) return;
-    navigator.clipboard.writeText(btn.dataset.no.replace(/-/g, '')).then(function () {
+    copy(btn.dataset.no.replace(/-/g, ''), '계좌번호가 복사되었습니다', function () {
       btn.textContent = '완료';
       btn.classList.add('done');
-      toast('계좌번호가 복사되었습니다');
       setTimeout(function () { btn.textContent = '복사'; btn.classList.remove('done'); }, 2000);
-    }).catch(function () { toast('복사에 실패했습니다'); });
+    });
   });
 
   // ===== 지도 =====
-  var kakaoMap = null;
   try {
     kakao.maps.load(function () {
-      var el = document.getElementById('pix-map');
-      kakaoMap = new kakao.maps.Map(el, {
-        center: new kakao.maps.LatLng(VENUE.lat, VENUE.lng),
-        level: 4
+      var el = document.createElement('div');
+      el.id = 'pix-map';
+      document.getElementById('map-slot').appendChild(el);
+      var map = new kakao.maps.Map(el, {
+        center: new kakao.maps.LatLng(VENUE.lat, VENUE.lng), level: 4
       });
-      new kakao.maps.Marker({
-        position: new kakao.maps.LatLng(VENUE.lat, VENUE.lng)
-      }).setMap(kakaoMap);
+      new kakao.maps.Marker({ position: new kakao.maps.LatLng(VENUE.lat, VENUE.lng) }).setMap(map);
     });
   } catch (err) {
     // 앱키 도메인 제한 등으로 SDK 를 못 불러와도 나머지는 정상 동작해야 한다
   }
-  function relayoutMap() {
-    if (kakaoMap) setTimeout(function () {
-      kakaoMap.relayout();
-      kakaoMap.setCenter(new kakao.maps.LatLng(VENUE.lat, VENUE.lng));
-    }, 60);
-  }
   window.openMapApp = function () {
-    window.open('https://map.kakao.com/link/to/' + VENUE.name + ',' + VENUE.lat + ',' + VENUE.lng, '_blank');
+    window.open('https://map.kakao.com/link/to/' + encodeURIComponent(VENUE.name) +
+                ',' + VENUE.lat + ',' + VENUE.lng, '_blank');
   };
 
   // ===== RSVP =====
   document.querySelectorAll('input[name="attendance"]').forEach(function (r) {
     r.addEventListener('change', function () {
-      document.getElementById('pix-guests-field').classList.toggle('show', r.value === '참석' && r.checked);
+      document.getElementById('guests-field').classList.toggle('show', r.value === '참석' && r.checked);
     });
   });
 
   window.submitRSVP = function (e) {
     e.preventDefault();
-    var name = document.getElementById('pix-name').value.trim();
-    var att = document.querySelector('input[name="attendance"]:checked');
-    var statusEl = document.getElementById('pix-status');
-    var btn = document.getElementById('pix-submit');
+    var name = document.getElementById('f-name').value.trim();
+    var att  = document.querySelector('input[name="attendance"]:checked');
+    var st   = document.getElementById('f-status');
+    var btn  = document.getElementById('f-submit');
 
     if (!name || !att) {
-      statusEl.textContent = '성함과 참석 여부를 입력해주세요.';
-      statusEl.className = 'status err';
+      st.textContent = '성함과 참석 여부를 입력해주세요.';
+      st.className = 'status err';
       return;
     }
     btn.disabled = true;
     btn.textContent = '전송 중...';
-    statusEl.textContent = '';
-    statusEl.className = 'status';
+    st.textContent = '';
+    st.className = 'status';
 
     fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
+      method: 'POST', mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({
         name: name,
         attendance: att.value,
-        guests: att.value === '참석' ? document.getElementById('pix-guests').value : '-',
-        message: document.getElementById('pix-message').value.trim() || '-'
+        guests: att.value === '참석' ? document.getElementById('f-guests').value : '-',
+        message: document.getElementById('f-msg').value.trim() || '-'
       })
     }).then(function () {
-      statusEl.textContent = '감사합니다! 회신이 전달되었습니다.';
-      statusEl.className = 'status ok';
-      document.getElementById('pix-rsvp').reset();
-      document.getElementById('pix-guests-field').classList.remove('show');
+      st.textContent = '감사합니다! 회신이 전달되었습니다.';
+      st.className = 'status ok';
+      document.getElementById('rsvp-form').reset();
+      document.getElementById('guests-field').classList.remove('show');
     }).catch(function () {
-      statusEl.textContent = '전송에 실패했습니다. 다시 시도해주세요.';
-      statusEl.className = 'status err';
+      st.textContent = '전송에 실패했습니다. 다시 시도해주세요.';
+      st.className = 'status err';
     }).finally(function () {
       btn.disabled = false;
       btn.textContent = '회신하기';
@@ -1042,26 +763,27 @@
         url: SHARE_URL
       }).catch(function (err) {
         if (err && err.name === 'AbortError') return;
-        copyLink();
+        copy(SHARE_URL, '링크가 복사되었습니다');
       });
       return;
     }
-    copyLink();
+    copy(SHARE_URL, '링크가 복사되었습니다');
   };
-  function copyLink() {
-    navigator.clipboard.writeText(SHARE_URL)
-      .then(function () { toast('링크가 복사되었습니다'); })
-      .catch(function () { toast('복사에 실패했습니다'); });
-  }
 
-  // ===== 토스트 =====
-  var toastTimer = null;
+  // ===== 공용 =====
+  function copy(text, msg, after) {
+    navigator.clipboard.writeText(text).then(function () {
+      toast(msg);
+      if (after) after();
+    }).catch(function () { toast('복사에 실패했습니다'); });
+  }
+  var timer = null;
   function toast(msg) {
     var el = document.getElementById('toast');
     el.textContent = msg;
     el.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { el.classList.remove('show'); }, 2200);
+    clearTimeout(timer);
+    timer = setTimeout(function () { el.classList.remove('show'); }, 2200);
   }
 })();
 </script>
