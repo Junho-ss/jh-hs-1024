@@ -22,20 +22,20 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri/dist/galmuri.css">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
-  /* 컬리 퍼플 + 레트로 게임 화면 팔레트. 단일 다크 테마로 의도적으로 고정. */
+  /* 터미널 톤의 다크 팔레트(초록 + 바이올렛). 단일 테마로 의도적으로 고정. */
   :root {
-    --bg:        #14101F;
-    --panel:     #241A38;
-    --panel-2:   #2E2247;
-    --slot:      #1B1330;
-    --purple:    #5F0080;
-    --purple-lt: #A855F7;
-    --pink:      #FF6BD6;
-    --gold:      #FFD166;
-    --mint:      #4ADE80;
-    --text:      #F3EEFF;
-    --dim:       #A79BC4;
-    --line:      #6B4FA0;
+    --bg:        #08070E;
+    --panel:     #100D1C;
+    --panel-2:   #171327;
+    --slot:      #0D0A16;
+    --purple:    #211A38;   /* 패널 헤더 바 */
+    --purple-lt: #A78BFA;
+    --pink:      #E879F9;
+    --gold:      #6EE7A0;   /* 액센트: 터미널 초록 */
+    --mint:      #A78BFA;   /* 보조 액센트: 바이올렛 */
+    --text:      #E9E6F5;
+    --dim:       #8B84A8;
+    --line:      #2E2748;
     --u: 4px;
   }
 
@@ -74,8 +74,8 @@
     z-index: 90;
     background: repeating-linear-gradient(
       to bottom,
-      rgba(0,0,0,0.16) 0px,
-      rgba(0,0,0,0.16) 1px,
+      rgba(0,0,0,0.09) 0px,
+      rgba(0,0,0,0.09) 1px,
       transparent 1px,
       transparent 3px);
     mix-blend-mode: multiply;
@@ -98,6 +98,20 @@
     padding: 7px 10px;
     text-transform: uppercase;
   }
+
+  /* ===== 터미널 창 바 ===== */
+  .termbar {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 11px;
+    background: var(--panel-2);
+    border-bottom: 1px solid var(--line);
+  }
+  .tdot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .tdot.r { background: #FF5F57; } .tdot.y { background: #FEBC2E; } .tdot.g { background: #28C840; }
+  .tname { flex: 1; text-align: center; font-size: 10px; color: var(--dim); letter-spacing: .5px; }
+  .ttag { font-size: 9px; color: #5C5678; letter-spacing: .5px; }
 
   /* ===== 상단 HUD ===== */
   .hud {
@@ -134,7 +148,7 @@
     padding: 40px 24px;
     position: relative;
     background:
-      radial-gradient(ellipse at 50% 30%, rgba(95,0,128,.55) 0%, transparent 62%),
+      radial-gradient(ellipse at 50% 30%, rgba(96,64,168,.45) 0%, transparent 62%),
       var(--bg);
   }
 
@@ -199,24 +213,20 @@
     gap: 8px;
     margin-bottom: 14px;
   }
-  .sec-head .bar { flex: 1; height: 3px; background: var(--line); }
+  .sec-head .bar { flex: 1; height: 1px; background: var(--line); }
   .sec-head h2 {
-    font-size: 11px;
-    color: var(--gold);
-    letter-spacing: 1px;
+    font-size: 10.5px;
+    color: var(--dim);
+    letter-spacing: 1.5px;
     font-weight: normal;
+    text-transform: uppercase;
   }
+  .sec-head h2::before { content: '> '; color: var(--gold); }
 
   /* ===== 캐릭터 카드 ===== */
   .party { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .char { padding: 12px 10px; text-align: center; }
-  .char canvas {
-    width: 88px; height: 88px;
-    image-rendering: pixelated;
-    border: 3px solid var(--line);
-    background: var(--slot);
-    filter: saturate(1.35) contrast(1.1);
-  }
+  .char .ava svg { width: 74px; height: auto; display: block; margin: 0 auto; }
   .char .role {
     margin-top: 10px;
     font-size: 9px;
@@ -524,6 +534,13 @@
 
 <div class="screen">
 
+  <!-- ===== 터미널 창 바 ===== -->
+  <div class="termbar">
+    <span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span>
+    <span class="tname">wedding_invitation.sh</span>
+    <span class="ttag">2026.10.24</span>
+  </div>
+
   <!-- ===== HUD ===== -->
   <div class="hud">
     <span class="who">♥ <b>홍준호</b> &amp; <b>전희선</b></span>
@@ -562,27 +579,17 @@
     <div class="sec-head"><h2 class="en">PARTY</h2><div class="bar"></div></div>
     <div class="party">
       <div class="char px">
-        <canvas width="32" height="32" data-crop="groom" aria-label="신랑 홍준호"></canvas>
+        <div class="ava" data-sprite="groom" role="img" aria-label="신랑 홍준호"></div>
         <p class="role">GROOM</p>
         <p class="nm">홍준호</p>
-        <dl>
-          <div><dt>길드</dt><dd>게임회사</dd></div>
-          <div><dt>클래스</dt><dd>게임 개발자</dd></div>
-        </dl>
         <div class="bar-row"><span>애정</span><div class="gauge love"><i></i><i></i><i></i><i></i><i></i></div></div>
-        <div class="bar-row"><span>근성</span><div class="gauge"><i></i><i></i><i></i><i></i><i></i></div></div>
       </div>
 
       <div class="char px">
-        <canvas width="32" height="32" data-crop="bride" aria-label="신부 전희선"></canvas>
+        <div class="ava" data-sprite="bride" role="img" aria-label="신부 전희선"></div>
         <p class="role">BRIDE</p>
         <p class="nm">전희선</p>
-        <dl>
-          <div><dt>길드</dt><dd>컬리</dd></div>
-          <div><dt>클래스</dt><dd>샛별배송 마스터</dd></div>
-        </dl>
         <div class="bar-row"><span>애정</span><div class="gauge love"><i></i><i></i><i></i><i></i><i></i></div></div>
-        <div class="bar-row"><span>신선도</span><div class="gauge gold"><i></i><i></i><i></i><i></i><i></i></div></div>
       </div>
     </div>
   </section>
@@ -649,21 +656,6 @@
         </div>
         <div class="film-nav" style="justify-content:center; margin-top:14px;">
           <button type="button" onclick="openMapApp()">카카오맵 길찾기</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 앨범 -->
-    <div class="panel px" id="p-album" hidden>
-      <p class="px-title">▶ 앨범</p>
-      <div class="panel-body">
-        <div class="film" id="film">
-          <div class="film-track" id="film-track"></div>
-        </div>
-        <div class="film-nav">
-          <button type="button" id="film-prev" onclick="filmGo(-1)">◀ PREV</button>
-          <span id="film-count">1 / 1</span>
-          <button type="button" id="film-next" onclick="filmGo(1)">NEXT ▶</button>
         </div>
       </div>
     </div>
@@ -757,9 +749,6 @@
   var VENUE = { name: '아연당', lat: 37.3820393, lng: 127.0932595 };
   var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyfNTavME_ll_I1xOswdJG9lM91AqaA4ZE8CkqjZbXewgd3eQB2QNOeW7S2SeEi-AfuNQ/exec';
 
-  // index.html 과 동일한 갤러리 구성
-  var PHOTOS = ['01','03','07','15','11','16','17','04','06','14','18','20'];
-
   // ===== 배경 별 =====
   (function stars() {
     var box = document.getElementById('stars'), html = '';
@@ -771,26 +760,49 @@
     box.innerHTML = html;
   })();
 
-  // ===== 도트 아바타 =====
-  // 사진을 32x32 로 줄여 그린 뒤 CSS 로 확대해 도트처럼 보이게 한다.
-  var CROPS = {
-    bride: { x: 0.29, y: 0.150, w: 0.21, h: 0.140 },
-    groom: { x: 0.51, y: 0.130, w: 0.21, h: 0.140 }
+  // ===== 도트 캐릭터 =====
+  // 패턴 문자열을 SVG rect 로 변환한다. 같은 색이 이어지면 한 rect 로 묶는다.
+  var PAL = {
+    H: '#241B2E', S: '#F0C49A', E: '#1E1628', M: '#BE7870',
+    B: '#15131F', W: '#F2F0FA', T: '#7C5CD6', V: '#CFC7EA', K: '#0C0B12'
   };
-  (function avatars() {
-    var img = new Image();
-    img.onload = function () {
-      document.querySelectorAll('canvas[data-crop]').forEach(function (cv) {
-        var c = CROPS[cv.dataset.crop];
-        var ctx = cv.getContext('2d');
-        ctx.imageSmoothingEnabled = true;
-        ctx.drawImage(img,
-          img.width * c.x, img.height * c.y, img.width * c.w, img.height * c.h,
-          0, 0, cv.width, cv.height);
-      });
-    };
-    img.src = 'photos/01.jpg';
-  })();
+  var SPRITE = {
+    groom: [
+      '.....HHHH.....','...HHHHHHHH...','..HHHHHHHHHH..','..HHHHHHHHHH..',
+      '..HHSSSSSSHH..','..HSSSSSSSSH..','..SSSSSSSSSS..','..SSEESSEESS..',
+      '..SSSSSSSSSS..','..SSSSMMSSSS..','...SSSSSSSS...','....SSSSSS....',
+      '..BBBWWWWBBB..','.BBBBWTTWBBBB.','.BBBBWTTWBBBB.','.BBBBBTTBBBBB.',
+      '.BBBBBBBBBBBB.','.BBBBBBBBBBBB.','.BBBBB..BBBBB.','.BBBBB..BBBBB.',
+      '.BBBBB..BBBBB.','.KKKK....KKKK.'
+    ],
+    bride: [
+      '....VVVVVV....','...VHHHHHHV...','..VHHHHHHHHV..','..VHHHHHHHHV..',
+      '..VHHSSSSHHV..','..VHSSSSSSHV..','..VSSSSSSSSV..','..VSEESSEESV..',
+      '..VSSSSSSSSV..','..VSSSMMSSSV..','...VSSSSSSV...','....VSSSSV....',
+      '..VVWWWWWWVV..','.VVWWWWWWWWVV.','.VWWWWWWWWWWV.','.VWWWWWWWWWWV.',
+      'VWWWWWWWWWWWWV','VWWWWWWWWWWWWV','VWWWWWWWWWWWWV','.WWWWWWWWWWWW.',
+      '.WWWWWWWWWWWW.','..WWWWWWWWWW..'
+    ]
+  };
+  function spriteSvg(rows) {
+    var out = '';
+    rows.forEach(function (row, y) {
+      var x = 0;
+      while (x < row.length) {
+        var ch = row[x];
+        if (ch === '.') { x++; continue; }
+        var w = 0;
+        while (x + w < row.length && row[x + w] === ch) w++;
+        out += '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="1" fill="' + PAL[ch] + '"/>';
+        x += w;
+      }
+    });
+    return '<svg viewBox="0 0 ' + rows[0].length + ' ' + rows.length +
+           '" shape-rendering="crispEdges" aria-hidden="true">' + out + '</svg>';
+  }
+  document.querySelectorAll('[data-sprite]').forEach(function (el) {
+    el.innerHTML = spriteSvg(SPRITE[el.dataset.sprite]);
+  });
 
   // ===== 카운트다운 =====
   function tick() {
@@ -812,7 +824,6 @@
   var ICONS = {
     when: ['.X....X.','XXXXXXXX','XXXXXXXX','X......X','X.XX.X.X','X......X','X.X..X.X','XXXXXXXX'],
     map:  ['..XXXX..','.XXXXXX.','XX....XX','XX....XX','.XXXXXX.','..XXXX..','...XX...','....X...'],
-    album:['XXXXXXXX','X......X','X.XX...X','X......X','X...XX.X','X..XXXXX','X.XXXXXX','XXXXXXXX'],
     gift: ['.XX..XX.','XXXXXXXX','XXXXXXXX','XXXXXXXX','.XXXXXX.','..XXXX..','...XX...','........'],
     rsvp: ['XXXXXXXX','XX....XX','X.X..X.X','X..XX..X','X......X','X......X','X......X','XXXXXXXX'],
     share:['...XX...','..XXXX..','.XXXXXX.','XXXXXXXX','...XX...','...XX...','...XX...','...XX...']
@@ -820,12 +831,11 @@
   var ITEMS = [
     { key: 'when',  label: '예식 정보' },
     { key: 'map',   label: '오시는 길' },
-    { key: 'album', label: '앨범' },
     { key: 'gift',  label: '마음 전하실 곳' },
     { key: 'rsvp',  label: '참석 회신' },
     { key: 'share', label: '공유하기' }
   ];
-  var PANEL = { when: 'p-when', map: 'p-map', album: 'p-album', gift: 'p-gift', rsvp: 'p-rsvp', share: 'p-share' };
+  var PANEL = { when: 'p-when', map: 'p-map', gift: 'p-gift', rsvp: 'p-rsvp', share: 'p-share' };
 
   function iconSvg(rows) {
     var r = '';
@@ -863,40 +873,7 @@
       document.getElementById(PANEL[k]).hidden = (k !== key);
     });
     if (key === 'map') relayoutMap();
-    if (key === 'album') buildFilm();
   }
-
-  // ===== 앨범 =====
-  var film = 0, filmBuilt = false;
-  function buildFilm() {
-    if (filmBuilt) return;
-    filmBuilt = true;
-    document.getElementById('film-track').innerHTML = PHOTOS.map(function (n, i) {
-      return '<div class="film-slide"><img src="photos/' + n + '.jpg" alt="사진 ' + (i + 1) + '"' +
-             (i === 0 ? '' : ' loading="lazy"') + '></div>';
-    }).join('');
-    filmRender();
-  }
-  function filmRender() {
-    document.getElementById('film-track').style.transform = 'translateX(-' + (film * 100) + '%)';
-    document.getElementById('film-count').textContent = (film + 1) + ' / ' + PHOTOS.length;
-    document.getElementById('film-prev').disabled = film === 0;
-    document.getElementById('film-next').disabled = film === PHOTOS.length - 1;
-  }
-  window.filmGo = function (step) {
-    film = Math.min(PHOTOS.length - 1, Math.max(0, film + step));
-    filmRender();
-  };
-  (function swipe() {
-    var el = document.getElementById('film'), x0 = null;
-    el.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
-    el.addEventListener('touchend', function (e) {
-      if (x0 === null) return;
-      var dx = x0 - e.changedTouches[0].clientX;
-      if (Math.abs(dx) > 45) window.filmGo(dx > 0 ? 1 : -1);
-      x0 = null;
-    }, { passive: true });
-  })();
 
   // ===== 계좌 =====
   var ACCOUNTS = {
