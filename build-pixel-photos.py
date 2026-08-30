@@ -5,6 +5,7 @@
 여기서 만든 것만 version-pixel.html 이 사용한다.
 
   photos-pixel/01.jpg ...  갤러리 사진 (모두 2:3, 1400px)
+                           장수를 바꾸면 version-pixel.html 의 GAL_COUNT 도 맞출 것
   photos-pixel/og.jpg      카카오톡 링크 미리보기용 1200x630
 
 일반 버전 사진을 바꿔도 이 폴더는 영향받지 않는다. 반대도 마찬가지.
@@ -17,9 +18,9 @@ SRC_ALL   = 'photos-all'                        # build-photos.py 가 만든 웹
 OUT       = 'photos-pixel'
 
 # 첫 장은 들판 사진, 그 뒤는 일반 버전 갤러리와 같은 순서로 이어붙인다.
-# 사용자가 공유한 그리드 순서 (앞 8장), 그 뒤에 나머지 4장
-FOLLOWING = ['01', '17', '18', '07', '04', '20', '11', '14',
-             '03', '15', '16', '06']
+# 픽셀 버전 갤러리 순서. 일반 버전(index.html)과 무관하게 여기서만 관리한다.
+# photos-all/ 의 번호 기준이며, 첫 장은 위 SRC_FIELD(들판 사진)가 들어간다.
+FOLLOWING = ['01', '17', '18', '07', '04', '20', '11', '14']
 
 MAX_DIM = 1400
 QUALITY = 84

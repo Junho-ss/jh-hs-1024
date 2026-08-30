@@ -389,7 +389,7 @@
       <div class="frame-bar">
         <span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span>
         <span class="en" style="flex:1;text-align:center">quest_album</span>
-        <span class="en count" id="gal-count">01/13</span>
+        <span class="en count" id="gal-count">01/09</span>
       </div>
       <div class="gal" id="gal"><div class="gal-track" id="gal-track"></div></div>
       <div class="gal-nav">
@@ -607,7 +607,7 @@
 
   // ===== 갤러리 =====
   // 픽셀 버전 전용 폴더(photos-pixel/)만 사용한다. 일반 버전 photos/ 와 분리.
-  var GAL_COUNT = 13;   // build-pixel-photos.py 가 만든 장수
+  var GAL_COUNT = 9;    // build-pixel-photos.py 가 만든 장수 (들판 1 + 8)
   var gal = 0;
 
   (function buildGallery() {
@@ -623,8 +623,8 @@
 
   function galRender() {
     document.getElementById('gal-track').style.transform = 'translateX(-' + (gal * 100) + '%)';
-    document.getElementById('gal-count').textContent =
-      ((gal + 1 < 10 ? '0' : '') + (gal + 1)) + '/' + GAL_COUNT;
+    var pad = function (v) { return (v < 10 ? '0' : '') + v; };
+    document.getElementById('gal-count').textContent = pad(gal + 1) + '/' + pad(GAL_COUNT);
     document.getElementById('gal-prev').disabled = (gal === 0);
     document.getElementById('gal-next').disabled = (gal === GAL_COUNT - 1);
   }
