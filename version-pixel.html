@@ -133,30 +133,32 @@
   .cmd .bar { flex: 1; height: 2px; background: var(--line); }
 
   /* ===== 타이틀 화면 ===== */
-  /* 타이틀 = 두 사람이 들판을 걸어가는 실제 사진.
-     사진 위쪽이 하늘이라 글자는 위쪽에, 두 사람은 아래쪽에 그대로 보이게 배치한다. */
+  /* 타이틀 = 도트로 그린 맑은 하늘. 실제 사진은 본문 액자에서 보여준다. */
   .title {
-    display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
     text-align: center;
     min-height: calc(100vh - 120px);
-    padding: var(--u8) var(--u6) var(--u8);
+    padding: var(--u12) var(--u6);
     position: relative; overflow: hidden;
-    background: #CFE7F5 url('photos/quest-hero.jpg') center bottom / cover no-repeat;
+    background: linear-gradient(180deg, #A8D8F0 0%, #CFEAF8 42%, #EAF6E4 78%, #D8EDC4 100%);
   }
-  /* 글자가 앉는 위쪽에만 옅은 흰 막 — 하늘이 밝아도 대비를 보장 */
-  .title::before {
-    content: ''; position: absolute; inset: 0; pointer-events: none;
-    background: linear-gradient(180deg,
-      rgba(255,255,255,.72) 0%, rgba(255,255,255,.52) 26%,
-      rgba(255,255,255,.12) 48%, rgba(255,255,255,0) 62%);
-  }
+  .clouds { position: absolute; inset: 0; pointer-events: none; }
+  .clouds svg { position: absolute; animation: drift linear infinite; }
+  .clouds svg rect { fill: rgba(255,255,255,.95); }
+  @keyframes drift { from { transform: translateX(-90px); } to { transform: translateX(540px); } }
+  .sun { position: absolute; top: 5%; right: 12%; width: 64px; height: 64px; }
+  .sun rect { fill: #F5C542; }
+
   .title > * { position: relative; }
-  .title .top { width: 100%; }
+  .heart-hero { width: 64px; height: 56px; margin-bottom: var(--u6); }
+  .heart-hero rect { fill: var(--pink); }
   .title h1 {
     font-size: var(--fs-hero); line-height: 1.5; letter-spacing: 1px;
-    color: var(--green-d); font-weight: normal; margin-bottom: var(--u2);
-    text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff,
-                 0 2px 0 #fff, 0 -2px 0 #fff, 2px 0 0 #fff, -2px 0 0 #fff;
+    color: #fff; font-weight: normal; margin-bottom: var(--u2);
+    text-shadow: 3px 3px 0 var(--green-d), -3px -3px 0 var(--green-d),
+                 3px -3px 0 var(--green-d), -3px 3px 0 var(--green-d),
+                 0 3px 0 var(--green-d), 0 -3px 0 var(--green-d),
+                 3px 0 0 var(--green-d), -3px 0 0 var(--green-d);
   }
   .title .sub { font-size: var(--fs-cap); color: var(--green-d); letter-spacing: 2px; margin-bottom: var(--u6); }
   .title .names { font-size: var(--fs-name); line-height: 2; letter-spacing: 3px; }
@@ -174,13 +176,7 @@
   @keyframes nudge { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
 
   /* ===== 사진: 자기만의 작은 터미널 창 안에 ===== */
-  /* 172px 원본을 정확히 2배(344px)로만 그리도록 폭을 고정 */
-  .frame {
-    border: 4px solid var(--line-dk);
-    background: var(--paper);
-    max-width: 352px;
-    margin: 0 auto;
-  }
+  .frame { border: 4px solid var(--line-dk); background: var(--paper); }
   .frame-bar {
     display: flex; align-items: center; gap: 6px;
     padding: 6px var(--u2);
@@ -189,11 +185,7 @@
     font-size: 10px; color: var(--dim);
   }
   .frame-bar .tdot { width: 8px; height: 8px; }
-  .scene {
-    width: 100%; height: auto; display: block;
-    image-rendering: pixelated;   /* 172px 도트 원본을 2배로 확대 */
-    background: #C8D8E8;
-  }
+  .scene { width: 100%; height: auto; display: block; background: #C8D8E8; }
 
   /* ===== LEVEL UP ===== */
   .lv { text-align: center; padding: var(--u6) var(--u1) var(--u2); }
@@ -324,7 +316,8 @@
   .foot svg { width: 32px; height: 28px; margin-bottom: var(--u3); }
   .foot svg rect { fill: var(--pink); }
   .foot .thanks { font-size: var(--fs-cap); color: var(--green-d); line-height: 2.2; }
-  .foot .names2 { font-size: var(--fs-body); color: var(--dim); margin-top: var(--u3); letter-spacing: 2px; }
+  .foot .bye { font-size: var(--fs-body); color: var(--text); line-height: 2.1; margin-top: var(--u4); }
+  .foot .names2 { font-size: var(--fs-body); color: var(--dim); margin-top: var(--u4); letter-spacing: 2px; }
 
   /* ===== 토스트 ===== */
   .toast {
@@ -362,18 +355,31 @@
 
   <!-- ===== 타이틀 ===== -->
   <section class="title">
-    <div class="top">
-      <h1 class="en">WEDDING<br>QUEST</h1>
-      <p class="sub">여정이 시작됩니다</p>
-      <p class="names">홍준호 <span class="amp">♥</span> 전희선</p>
-      <p class="meta">2026. 10. 24 토요일 낮 12시<br>판교 아연당</p>
-    </div>
-    <button class="press en" onclick="document.getElementById('start').scrollIntoView()">▼ PRESS START</button>
+    <div class="clouds" id="clouds" aria-hidden="true"></div>
+    <svg class="sun" id="sun" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"></svg>
+
+    <svg class="heart-hero" id="hero-heart" viewBox="0 0 16 14" shape-rendering="crispEdges" aria-hidden="true"></svg>
+
+    <h1 class="en">WEDDING<br>QUEST</h1>
+    <p class="sub">- 여정이 시작됩니다 -</p>
+    <p class="names">홍준호 <span class="amp">♥</span> 전희선</p>
+    <p class="meta">2026. 10. 24 토요일 낮 12시<br>판교 아연당</p>
+
+    <button class="press" onclick="document.getElementById('start').scrollIntoView()">▼ 여정 시작하기</button>
   </section>
 
   <!-- ===== 여정의 시작 ===== -->
   <section class="sec" id="start">
     <p class="cmd en">./start_quest.sh<span class="bar"></span></p>
+
+    <div class="frame">
+      <div class="frame-bar">
+        <span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span>
+        <span class="en" style="flex:1;text-align:center">quest_scene.jpg</span>
+      </div>
+      <img class="scene" src="photos/quest-scene.jpg"
+           alt="들판을 가로질러 함께 걸어가는 두 사람" width="760" height="690" loading="lazy">
+    </div>
 
     <div class="lv">
       <p class="players en">PLAYER 1 <span class="h">♥</span> PLAYER 2</p>
@@ -480,6 +486,11 @@
   <footer class="foot">
     <svg id="foot-heart" viewBox="0 0 8 7" shape-rendering="crispEdges" aria-hidden="true"></svg>
     <p class="thanks en">THANK YOU<br>FOR JOINING</p>
+    <p class="bye">
+      귀한 걸음으로 저희의 첫 장면을<br>
+      함께해 주셔서 진심으로 감사합니다.<br>
+      두 사람 오래도록 행복하게 잘 살겠습니다.
+    </p>
     <p class="names2">2026. 10. 24 · 홍준호 &amp; 전희선</p>
   </footer>
 </div>
@@ -521,6 +532,22 @@
     call: ['.XXXXXX.','.X....X.','.X....X.','.X....X.','.X....X.','.X....X.','.X.XX.X.','.XXXXXX.'],
     // 8x7 — 푸터 하트
     heartS: ['.XX..XX.','XXXXXXXX','XXXXXXXX','.XXXXXX.','..XXXX..','...XX...','........'],
+    // 16x14 — 타이틀 하트
+    heartL: [
+      '................','...XXX....XXX...','..XXXXX..XXXXX..','.XXXXXXXXXXXXXX.',
+      'XXXXXXXXXXXXXXXX','XXXXXXXXXXXXXXXX','XXXXXXXXXXXXXXXX','.XXXXXXXXXXXXXX.',
+      '..XXXXXXXXXXXX..','...XXXXXXXXXX...','....XXXXXXXX....','.....XXXXXX.....',
+      '......XXXX......','.......XX.......'
+    ],
+    // 16x16 — 해 (반투명 없이 단단한 가장자리)
+    sun: [
+      '................','.......XX.......','................','...X........X...',
+      '....XXXXXXXX....','...XXXXXXXXXX...','..XXXXXXXXXXXX..','..XXXXXXXXXXXX..',
+      '..XXXXXXXXXXXX..','..XXXXXXXXXXXX..','...XXXXXXXXXX...','....XXXXXXXX....',
+      '...X........X...','................','.......XX.......','................'
+    ],
+    // 8x3 — 구름 한 덩이
+    cloud: ['..XXXX..','.XXXXXXX','XXXXXXXX'],
     // 16x16 — 인벤토리 아이콘 (8x8 로는 전화기·공유 글리프가 안 읽혀서 격자를 키웠다)
     gift: [
       '................','....XXX..XXX....','..XXXXXXXXXXXX..','.XXXXXXXXXXXXXX.',
@@ -547,7 +574,19 @@
            sprite(ART[name]) + '</svg>';
   }
 
+  document.getElementById('sun').innerHTML = sprite(ART.sun);
+  document.getElementById('hero-heart').innerHTML = sprite(ART.heartL);
   document.getElementById('foot-heart').innerHTML = sprite(ART.heartS);
+
+  // ===== 흘러가는 구름 (글자를 가리지 않게 위쪽에만) =====
+  (function () {
+    var conf = [[17, 32, 0], [25, 44, -14], [33, 38, -26]];
+    document.getElementById('clouds').innerHTML = conf.map(function (c) {
+      return '<svg viewBox="0 0 8 3" width="56" height="21" shape-rendering="crispEdges" ' +
+             'style="top:' + c[0] + '%;left:-90px;animation-duration:' + c[1] +
+             's;animation-delay:' + c[2] + 's">' + sprite(ART.cloud) + '</svg>';
+    }).join('');
+  })();
 
   // ===== 예식 안내 =====
   var QLOG = [
